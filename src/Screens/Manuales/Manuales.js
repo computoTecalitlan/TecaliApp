@@ -300,7 +300,7 @@ export default class Manuales extends Component {
 					title="TRANSPARENCIA"
 					description="Visualice los manuales de transparencia"
 					info="Delice hacia abajo, para los manuales más antiguos."
-					image={require('../../assets/images/Buzon/buzon.png')}
+					image={require('../../assets/images/Noticia/noticia.png')}
 				/>
 			</View>
 		);
@@ -345,7 +345,7 @@ export default class Manuales extends Component {
 					justifyContent: 'flex-start',
 					alignItems: 'center',
 					overflow: 'hidden',
-					flexGrow: 2
+					flexGrow: 2,
 				}}
 			>
 				{source && (
@@ -371,7 +371,7 @@ export default class Manuales extends Component {
 
 		const addManualBody = (
 			<Card style={styles.add}>
-				<ScrollView style={{ flex: 1 }}>
+				<ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
 					<CardItem>
 						<TouchableOpacity style={styles.selectButton} onPress={() => this.onSelectPdfHandler()}>
 							<Text style={styles.textSelect}>Seleccionar pdf</Text>
@@ -382,7 +382,7 @@ export default class Manuales extends Component {
 							/>
 						</TouchableOpacity>
 					</CardItem>
-					<CardItem style={{ flex: 1 }}>{this.state.resPdf && elpdf}</CardItem>
+					{elpdf}
 				</ScrollView>
 			</Card>
 		);

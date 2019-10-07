@@ -4,8 +4,8 @@ import android.app.Application;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.airbnb.android.react.maps.MapsPackage;
-import com.evollu.react.fcm.FIRMessagingPackage;
 import com.facebook.react.ReactApplication;
+
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -14,10 +14,12 @@ import com.imagepicker.ImagePickerPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
-import com.rnfs.RNFSPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.vonovak.AddCalendarEventPackage;
+import io.invertase.firebase.RNFirebasePackage; // <-- react-native-firebase
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- react-native-firebase
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
 import org.wonday.pdf.RCTPdfView;
 
@@ -35,10 +37,9 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-            new FIRMessagingPackage(),
             new MainReactPackage(),
+            new RNFirebasePackage(),
             new ReanimatedPackage(),
-            new RNFSPackage(),
             new PickerPackage(),
             new AddCalendarEventPackage(),
             new RNGestureHandlerPackage(),
@@ -47,7 +48,10 @@ public class MainApplication extends Application implements ReactApplication {
             new MapsPackage(),
             new AsyncStoragePackage(),
             new RCTPdfView(),
-            new ImagePickerPackage()
+            new ImagePickerPackage(),
+            new RNFirebaseMessagingPackage(),
+            new RNFirebaseNotificationsPackage()  // <-- react-native-firebase
+
       );
     }
 

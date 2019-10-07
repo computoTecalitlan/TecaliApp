@@ -12,59 +12,29 @@ import {
 	Text
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import FCM, {
-	NotificationActionType,
-	RemoteNotificationResult,
-	WillPresentNotificationResult,
-	NotificationType,
-	FCMEvent
-} from 'react-native-fcm';
+import firebase from 'react-native-firebase';
 import HeaderToolbar from '../../components/HeaderToolbar/HeaderToolbar';
 import StatusBar from '../../UI/StatusBar/StatusBar';
 import axios from '../../../axios-ayuntamiento';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
 import SwiperBanner from '../../components/SwiperBanner/SwiperBanner';
-
-// FCM
-FCM.on(FCMEvent.Notification, async (notif) => {
-	console.log('FCMEvent: ', FCMEvent);
-	console.log('notif: ', notif);
-	if (notif.local_notification) {
-		//This is a local notification
-	}
-	if (notif.opened_from_tray) {
-		//IOS: app is open/resumed because user clicked banner
-		//Android: app is open/resumed because user clicked banner o tapped app icon
-		console.log('Clicked in the notification!');
-	}
-	// await someAsyncCall();
-	if (Platform.OS === 'ios') {
-		//Optionial
-		//IOS requires developers to call completionHandler to end notification process.
-		//This library handles it for you automatically with default behavior
-		//notif._notificationType is acailable for iOS platfrom
-		switch (notif._notificationType) {
-			case NotificationType.Remote:
-				notif.finish(RemoteNotificationResult.NewData);
-				break;
-			case NotificationType.NotificationResponse:
-				notif.finish();
-				break;
-			case NotificationType.WillPresent:
-				notif.finish(WillPresentNotificationResult.All);
-				break;
-		}
-	}
-});
-FCM.on(FCMEvent.RefreshToken, (token) => {
-	console.log(token);
-	//fcm token may not available on first load, catch it here
-});
-// FCM
+import { 
+	checkMessagingPermission,
+	requestMessagingPermission, 
+	getTokenMessaging, 
+	onNotificationListener, 
+	onNotificationOpenedListener,
+	getInitialNotification,
+	onMessage,
+} from '../../components/RNFBMessaging/RNFBMessaging';
 
 export default class Home extends Component {
 	_didFocusSubscription;
 	_willBlurSubscription;
+	_onNotificationListener;
+	_notificationOpenedListener;
+	_messageListener;
+	_notificationDisplayedListener
 
 	state = {
 		news: null,
@@ -92,12 +62,72 @@ export default class Home extends Component {
 				source={require('../../assets/images/Drawer/home-icon.png')}
 				style={styles.drawerIcon}
 				resizeMode="contain"
-			/>
-		),
+				/>
+				),
+			};
+
+	checkmsgPermission = async () => {
+		const checkPermissionResponse = await checkMessagingPermission();
+		if (checkPermissionResponse) {
+			const tokenMessaging = await getTokenMessaging();
+			console.log('tokenMessaging: ', tokenMessaging);
+			if (tokenMessaging){
+				console.log('tokenMessagin true');
+				this.setState({ notificationToken: tokenMessaging });
+			}
+		} else {
+			const requestMssagngPermission = await requestMessagingPermission();
+			console.log('requestMessagingPermission: ', requestMssagngPermission);
+		}
+	};
+
+	createNotificationListener = async () => {
+		this._onNotificationListener = onNotificationListener();
+		console.log('_onNotificationListener', this._onNotificationListener);
+		this._notificationOpenedListener = onNotificationOpenedListener();
+		console.log('_notificationOpenedListener', this._notificationOpenedListener);
+		const initialNotification = await getInitialNotification();
+		console.log('initialNotification: ', initialNotification);
+		this._messageListener = onMessage();
+		console.log('_messageListener: ', this._messageListener);
+		
+	};
+	createNotificationForiOS = async () => {
+		try {
+			this._notificationDisplayedListener = firebase.notifications().onNotificationDisplayed(notifDisplayed => {
+				console.log('notifDisplay: ', notifDisplayed);
+			});
+			
+			this._onNotificationListener = firebase.notifications().onNotification((notification) => {
+				console.log('notif: ', notification);
+				firebase.notifications().displayNotification(notification);
+			});
+			
+			this._notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+				// Get the action triggered by the notification being opened
+				console.log('notifOpen: ', notificationOpen);
+			});
+			const initialNotification = await firebase.notifications().getInitialNotification();
+			console.log('initialNotif: ', initialNotification);
+	
+			firebase.messaging().onMessage((msj) => {
+				console.log('msj: ', msj);
+			});
+
+			
+		} catch (error) {
+			
+		}
 	};
 
 	//Obtiene el token y tiempo de expiracion almacenado globalmente en la app
 	async componentDidMount() {
+		// react-native-firebase
+		Platform.OS === 'ios' && firebase.messaging().ios.registerForRemoteNotifications();
+		this.checkmsgPermission();
+		Platform.OS === 'android' ? this.createNotificationListener() : this.createNotificationForiOS();
+		// react-native-firebase
+
 		//Request lcoation permissons
 		Platform.OS === 'ios' ? this.watchId = navigator.geolocation.requestAuthorization() : null;
 		this.changeFirstGifHandler();
@@ -108,18 +138,18 @@ export default class Home extends Component {
 		//Get the token and time of expiration
 		let token = (expiresIn = email = null);
 		try {
-			console.log('Entro al try');
+			// console.log('Entro al try');
 			token = await AsyncStorage.getItem('@storage_token');
 			expiresIn = await AsyncStorage.getItem('@storage_expiresIn');
 			email = await AsyncStorage.getItem('@storage_email');
 			//Use the expires in
 			const parseExpiresIn = new Date(parseInt(expiresIn));
 			const now = new Date();
-			console.log('Home.js: ', token);
-			console.log('Home.js: ', parseExpiresIn, now);
-			console.log('Home.js: ', email);
+			// console.log('Home.js: ', token);
+			// console.log('Home.js: ', parseExpiresIn, now);
+			// console.log('Home.js: ', email);
 			if (token && parseExpiresIn > now) {
-				this.setState({ token: token }, () => this.getNews());
+				this.setState({ token: token }, () => {this.getNews(); this.getFCMTokens()});
 			} else {
 				//Restrict screens if there's no token
 				try {
@@ -141,25 +171,6 @@ export default class Home extends Component {
 		} catch (e) {
 			//Catch posible errors
 		}
-
-		//Create notification channel
-		FCM.createNotificationChannel({
-			id: 'null',
-			name: 'Default',
-			description: 'used for example',
-			priority: 'high'
-		});
-
-		//get the notification
-		try {
-			const requestPermissions = await FCM.requestPermissions({ badge: false, sound: true, alert: true });
-			console.log('requestPermissions: ', requestPermissions);
-			const FCMToken = await FCM.getFCMToken();
-			console.log('getFCMToken, ', FCMToken);
-			const getInitialNotification = await FCM.getInitialNotification();
-			console.log('getInitialNotification, ', getInitialNotification);
-			this.setState({ notificationToken: FCMToken }, () => this.getFCMTokens());
-		} catch (error) {}
 	};
 
 	onBackButtonPressAndroid = () => {
@@ -180,14 +191,19 @@ export default class Home extends Component {
 
 		clearTimeout(this.firstGif);
 		clearTimeout(this.secondGif);
+		clearTimeout(this.thirdGif);
+		clearTimeout(this.fourthGif);
+		clearTimeout(this.fifthGif);
 	};
 
 	//Get fcmTokens
 	getFCMTokens = () => {
+		// console.log('getting');
 		const fetchedfcmTokens = [];
 		axios
 			.get('/fcmtokens.json?auth=' + this.state.token)
 			.then((res) => {
+				// console.log('gettingREs: ', res);
 				for (let key in res.data) {
 					fetchedfcmTokens.push({
 						...res.data[key],
@@ -195,23 +211,33 @@ export default class Home extends Component {
 					});
 				}
 				const fcmtkns = [];
+				// console.log('exist tokens');
 				for (let i = 0; i < fetchedfcmTokens.length; i++) {
 					const element = fetchedfcmTokens[i];
 					let fcmToken = element.tokenData[Object.keys(element.tokenData)];
 					fcmtkns[i] = fcmToken;
 				}
+				// console.log('fcmtkns: ', fcmtkns);
 				this.setState({ fcmTokens: fcmtkns }, () => this.verifyfcmTokens());
 			})
 			.catch((err) => {});
+
 	};
 	//Verify tokens
 	verifyfcmTokens = () => {
-		let exist = false;
+		let exist = null;
 		//Check if this token already exist in db
-		for (let i = 0; i < this.state.fcmTokens.length; i++) {
-			const element = this.state.fcmTokens[i];
-			if (element === this.state.notificationToken) exist = true;
+		if (this.state.fcmTokens.length !== 0) {
+			for (let i = 0; i < this.state.fcmTokens.length; i++) {
+				const element = this.state.fcmTokens[i];
+				if (element == this.state.notificationToken) {
+					exist = true;
+				}
+			}
 		}
+
+		if (this.state.fcmTokens.length === 0)
+			exist = false;
 
 		if (!exist) {
 			const formData = {};
@@ -222,20 +248,19 @@ export default class Home extends Component {
 			axios
 				.post('/fcmtokens.json?auth=' + this.state.token, fcmtoken)
 				.then((response) => {
+					// console.log('tokenRegistered!: ', response);
 					this.getFCMTokens();
 				})
 				.catch((error) => {
 					this.setState({ loading: false });
-					Alert.alert('Noticias', 'Noticia fallida al enviar!', [ { text: 'Ok' } ], {
-						cancelable: false
-					});
+					console.log('cannot save token!');
 				});
 		}
 		if (exist) this.setState({ allReadyToNotification: true });
 	}; //end
 
 	getNews = () => {
-		console.log('entro');
+		//console.log('entro');
 		this.setState({ loading: true });
 		axios
 			.get('/news.json?auth=' + this.state.token)
@@ -258,18 +283,36 @@ export default class Home extends Component {
 	changeFirstGifHandler = () => {
 		this.firstGif = setTimeout(() => {
 			this.setState({ currentGif: require('../../assets/images/Gif/teca-centro2.gif') }, () => this.changeSecondGifHandler())
-		}, 10000)
+		}, 10000);
 	};
 
 	changeSecondGifHandler = () => {
 		this.secondGif = setTimeout(() => {
+			this.setState({ currentGif: require('../../assets/images/Gif/teca-centro3.gif') }, () => this.changeThirdGifHandler())
+		}, 10000);
+	};
+
+	changeThirdGifHandler = () => {
+		this.thirdGif = setTimeout(() => {
+			this.setState({ currentGif: require('../../assets/images/Gif/teca-centro4.gif') }, () => this.changeFourthGifHandler())
+		}, 10000);
+	};
+
+	changeFourthGifHandler = () => {
+		this.fourthGif = setTimeout(() => {
+			this.setState({ currentGif: require('../../assets/images/Gif/teca-centro5.gif') }, () => this.changeFifthGifHandler())
+		}, 10000);
+	};
+
+	changeFifthGifHandler = () => {
+		this.fifthGif = setTimeout(() => {
 			this.setState({ currentGif: require('../../assets/images/Gif/teca-centro1.gif') }, () => this.changeFirstGifHandler())
-		}, 10000)
+		}, 11000)
 	};
 
 	render() {
 		const spinner = <CustomSpinner color="blue" />;
-		let swiperBanner = <SwiperBanner news={this.state.news} open={this.props} token={this.state.token} />;
+		const swiperBanner = <SwiperBanner news={this.state.news} open={this.props} token={this.state.token} />;
 
 		return (
 			<SafeAreaView style={styles.container}>
@@ -287,7 +330,7 @@ export default class Home extends Component {
 	}
 }
 
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
 	container: {

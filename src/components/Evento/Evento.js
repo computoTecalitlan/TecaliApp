@@ -73,7 +73,7 @@ export default class Evento extends Component {
 			startDate: `${sYear}-${sMonth}-${(Number(sDay) + 1).toString()}T08:00:00.000Z`,
 			endDate: `${eYear}-${eMonth}-${(Number(eDay) + 2).toString()}T08:00:00.000Z`,
 			location: 'Tecalitlán, Jal.',
-			notes: this.state.descripcion.toString() + '\n' + this.state.hora
+			notes: this.state.tipo + '\n' + this.state.descripcion.toString() + '\n' + this.state.hora
 		};
 
 		const eventInfo = await AddCalendarEvent.presentEventCreatingDialog(eventConfig);

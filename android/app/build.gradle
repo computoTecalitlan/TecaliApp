@@ -160,9 +160,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-firebase')
     implementation project(':react-native-reanimated')
-    implementation project(':react-native-fcm')
-    implementation project(':react-native-fs')
     implementation project(':react-native-image-crop-picker')
     implementation project(':react-native-add-calendar-event')
     implementation project(':react-native-gesture-handler')

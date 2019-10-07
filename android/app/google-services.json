@@ -8,35 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:87834081884:android:315e8640cf58e6ab",
-        "android_client_info": {
-          "package_name": "com.ayuntamientoapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "87834081884-eifo7jt670gf28inck7qu5edkq41uqq5.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCdY5ivrk_mldiM8OaSRS5tdVdiX73eVB8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "87834081884-eifo7jt670gf28inck7qu5edkq41uqq5.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:87834081884:android:5ef9cccd8d5a6040",
         "android_client_info": {
           "package_name": "com.tecaliapp"
@@ -59,6 +30,14 @@
             {
               "client_id": "87834081884-eifo7jt670gf28inck7qu5edkq41uqq5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "87834081884-mkqsqp1vkkdushjku2fpfi9k4ag6hb93.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gobtecalitlan.TecaliApp",
+                "app_store_id": "1478761700"
+              }
             }
           ]
         }

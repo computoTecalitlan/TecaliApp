@@ -16,7 +16,6 @@ import styled, { ThemeProvider } from 'styled-components';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
 import axiosCloudinary from 'axios';
-import FCM from 'react-native-fcm';
 import HeaderToolbar from '../../components/HeaderToolbar/HeaderToolbar';
 import StatusBar from '../../UI/StatusBar/StatusBar';
 import axios from '../../../axios-ayuntamiento';
@@ -27,6 +26,7 @@ import CustomInput from '../../components/CustomInput/CustomInput';
 import firebaseClient from '../../components/AuxiliarFunctions/FirebaseClient';
 import CustomAddBanner from '../../components/CustomAddBanner/CustomAddBanner';
 import KBAvoiding from '../../components/KBAvoiding/KBAvoiding';
+import { getTokenMessaging, checkMessagingPermission, requestMessagingPermission } from '../../components/RNFBMessaging/RNFBMessaging';
 
 const theme = {
 	commonFlex: '1',
@@ -188,6 +188,7 @@ export default class Eventos extends Component {
 				this.getEvents();
 				this.getBanner();
 				this.getTypeEvents();
+				this.checkmsgPermission();
 			} else {
 				//Restrict screens if there's no token
 				try {
@@ -208,25 +209,23 @@ export default class Eventos extends Component {
 		} catch (e) {
 			//Catch posible errors
 		}
-		// Create notification channel
-		FCM.createNotificationChannel({
-			id: 'null',
-			name: 'Default',
-			description: 'used for example',
-			priority: 'high'
-		});
-
-		// get the notification
-		try {
-			const requestPermissions = await FCM.requestPermissions({ badge: false, sound: true, alert: true });
-			console.log('requestPermissions: ', requestPermissions);
-			const FCMToken = await FCM.getFCMToken();
-			console.log('getFCMToken, ', FCMToken);
-			const getInitialNotification = await FCM.getInitialNotification();
-			console.log('getInitialNotification, ', getInitialNotification);
-			this.setState({ notificationToken: FCMToken }, () => this.getFCMTokens());
-		} catch (error) {}
 	}
+
+	checkmsgPermission = async () => {
+		const checkPermissionResponse = await checkMessagingPermission();
+		if (checkPermissionResponse) {
+			const tokenMessaging = await getTokenMessaging();
+			console.log('tokenMessaging: ', tokenMessaging);
+			if (tokenMessaging){
+				console.log('tokenMessagin true');
+				this.setState({ notificationToken: tokenMessaging });
+			}
+		} else {
+			const requestMssagngPermission = await requestMessagingPermission();
+			console.log('requestMessagingPermission: ', requestMssagngPermission);
+		}
+	};
+
 	//Native backbutton
 	onBackButtonPressAndroid = () => {
 		const { openDrawer, closeDrawer, dangerouslyGetParent } = this.props.navigation;
@@ -269,7 +268,7 @@ export default class Eventos extends Component {
 				body = {
 					registration_ids: this.state.fcmTokens,
 					notification: {
-						title: 'Simple FCM Client',
+						title: 'Nuevo evento',
 						body: '!' + this.state.form['evento'].value + '¡',
 						sound: 'default'
 					},
@@ -301,6 +300,7 @@ export default class Eventos extends Component {
 				});
 				this.getBanner();
 				this.getTypeEvents();
+				this.getFCMTokens();
 			})
 			.catch((err) => {
 				this.setState({ loading: false });
@@ -813,10 +813,8 @@ export default class Eventos extends Component {
 		const title = (
 			<View style={{ marginBottom: 5, width: width * 0.94, height: width * 0.4 }}>
 				<CustomCardItemTitle
-					title="EVENTOS"
-					description="Los eventos más importantes dentro de Tecalitlán"
-					info="Eventos por orden alfabético."
 					image={objUri}
+					type="Events"
 				/>
 			</View>
 		);

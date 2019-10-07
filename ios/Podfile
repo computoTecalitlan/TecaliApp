@@ -8,6 +8,7 @@ target 'TecaliApp' do
 
    	pod 'Firebase'
     pod 'Firebase/Messaging'
+    pod 'Firebase/Core'
     pod 'react-native-async-storage', :path => '../node_modules/@react-native-community/async-storage'
     pod 'React', path: '../node_modules/react-native', :subspecs => [
     'Core',
