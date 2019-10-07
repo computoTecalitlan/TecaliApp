@@ -3,27 +3,45 @@ import { Text, View, Image, StyleSheet, Dimensions, ImageBackground } from 'reac
 
 const { height, width } = Dimensions.get('window');
 
-const customCardItemTitle = (props) => (
-		<ImageBackground
-			style={styles.container}
-			resizeMode="cover"
-			width={width * 0.95}
-			source={require('../../assets/images/Preferences/banner.jpeg')}
-		>
-			<View style={styles.responsiveContainer}>
-			{/* View image */}
-			<View style={styles.buttonsContainer}>
-				<Image style={styles.image} source={props.image} />
-			</View>
-			{/* View text */}
-			<View style={styles.textContainer}>
-				<Text style={styles.title}>{props.title}</Text>
-				<Text style={styles.description}>{props.description}</Text>
-				<Text style={styles.info}>{props.info}</Text>
-			</View>
-			</View>
-		</ImageBackground>
-);
+const customCardItemTitle = (props) => {
+	let ccit = null;
+	if (props.type === 'Events') {
+		ccit = (
+			<ImageBackground 
+				style={styles.container}
+				resizeMode="cover"
+				width={null}
+				height={null}
+				source={props.image}
+			/>
+		);
+	} else {
+		ccit = (
+			<ImageBackground
+				style={styles.container}
+				resizeMode="cover"
+				width={width * 0.95}
+				source={require('../../assets/images/Preferences/banner.jpeg')}
+			>
+				<View style={styles.responsiveContainer}>
+					{/* View image */}
+					<View style={styles.buttonsContainer}>
+						<Image style={styles.image} source={props.image} />
+					</View>
+					{/* View text */}
+					<View style={styles.textContainer}>
+						<Text style={styles.title}>{props.title}</Text>
+						<Text style={styles.description}>{props.description}</Text>
+						<Text style={styles.info}>{props.info}</Text>
+					</View>
+				</View>
+			</ImageBackground>
+		);
+	}
+
+	return <View style={{ flex: 1 }}>{ccit}</View>
+
+}
 
 export default customCardItemTitle;
 
