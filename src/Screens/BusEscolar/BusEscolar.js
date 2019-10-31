@@ -21,6 +21,8 @@ import Buses from '../../components/Buses/Buses';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomAddBanner from '../../components/CustomAddBanner/CustomAddBanner';
 import KBAvoiding from '../../components/KBAvoiding/KBAvoiding';
+import ImagePicker from 'react-native-image-picker';
+import axiosCloudinary from 'axios';
 
 export default class BusEscolar extends Component {
 	_didFocusSubscription;
@@ -39,7 +41,7 @@ export default class BusEscolar extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 20
+					maxLength: 50
 				},
 				valid: false
 			},
@@ -49,7 +51,7 @@ export default class BusEscolar extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 25
+					maxLength: 100
 				},
 				valid: false
 			},
@@ -59,13 +61,13 @@ export default class BusEscolar extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 30
+					maxLength: 100
 				},
 				valid: false
 			},
 			horaSalida: {
 				itemType: 'Hour',
-				holder: 'Salida',
+				holder: 'Hora salida',
 				value: '',
 				validation: {
 					haveValue: true
@@ -78,13 +80,13 @@ export default class BusEscolar extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 30
+					maxLength: 100
 				},
 				valid: false
 			},
 			horaRegreso: {
 				itemType: 'Hour',
-				holder: 'Regreso',
+				holder: 'Hora regreso',
 				value: '',
 				validation: {
 					haveValue: true
@@ -97,9 +99,15 @@ export default class BusEscolar extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 30
+					maxLength: 100
 				},
 				valid: false
+			},
+			imagen: {
+				itemType: 'LoadImage',
+				holder: 'IMAGEN',
+				value: '',
+				valid: true
 			},
 		},
 		formIsValid: false,
@@ -107,6 +115,16 @@ export default class BusEscolar extends Component {
 		showLikeIcons: true,
 		texToSearch: '',
 		search: false,
+		image: null,
+		fileNameImage: null,
+		imageFormData:  null,
+		options: {
+			title: 'Elige una opción',
+			takePhotoButtonTitle: 'Abrir camara.',
+			chooseFromLibraryButtonTitle: 'Abrir galeria.',
+			maxWidth: 800,
+			maxHeight: 800
+		},
 	};
 
 	constructor(props) {
@@ -317,7 +335,7 @@ export default class BusEscolar extends Component {
 					this.setState({ loading: false });
 					Alert.alert(
 						'Bus escolar',
-						'Nuevo bus enviado con exito!',
+						'¡Nuevo bus enviado con exito!',
 						[ { text: 'Ok', onPress: () => this.getBuses() } ],
 						{
 							cancelable: false
@@ -364,6 +382,97 @@ export default class BusEscolar extends Component {
 	};
 	startSearch = () => {
 		this.setState({ search: !this.state.search });
+	};
+	loadPhotoHandler = (show) => {
+		if (show === 'library'){
+			ImagePicker.launchImageLibrary(this.state.options, (response) => {
+				if (response.didCancel) {
+					console.log('User cancelled image picker');
+				} else if (response.error) {
+					console.log('ImagePicker Error: ', response.error);
+				} else {
+					//Destructuring response object
+					const { fileName, fileSize, type, data, uri } = response;
+					//Preset
+					const UPLOAD_PRESET_NAME = 'ayuntamiento';
+					//Image form data
+					const imageFormData = new FormData();
+					imageFormData.append('file', {
+						name: fileName,
+						size: fileSize,
+						type: type,
+						data: data,
+						uri: uri
+					});
+					imageFormData.append('upload_preset', UPLOAD_PRESET_NAME);
+					this.setState({ imageFormData: imageFormData, image: { uri: uri }, fileNameImage: fileName });
+				} // else
+			});
+		} else {
+			ImagePicker.launchCamera(this.state.options, (response) => {
+				if (response.didCancel) {
+					console.log('User cancelled image picker');
+				} else if (response.error) {
+					console.log('ImagePicker Error: ', response.error);
+				} else {
+					//Destructuring response object
+					const { fileName, fileSize, type, data, uri } = response;
+					//Preset
+					const UPLOAD_PRESET_NAME = 'ayuntamiento';
+					//Image form data
+					const imageFormData = new FormData();
+					imageFormData.append('file', {
+						name: fileName,
+						size: fileSize,
+						type: type,
+						data: data,
+						uri: uri
+					});
+					imageFormData.append('upload_preset', UPLOAD_PRESET_NAME);
+					this.setState({ imageFormData: imageFormData, image: { uri: uri }, fileNameImage: fileName });
+				} // else
+			});
+		}
+	};
+
+	uploadPhotoHandler = () => {
+		//URL cloudinary
+		const URL_CLOUDINARY = 'https://api.cloudinary.com/v1_1/storage-images/image/upload';
+		this.setState({ loading: true });
+		if (this.state.imageFormData && this.state.formIsValid) {
+			axiosCloudinary({
+				url: URL_CLOUDINARY,
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: this.state.imageFormData
+			})
+				.then((response) => {
+					console.log('ResponseCloudinary: ', response);
+					//Destructurin response
+					const { data } = response;
+					console.log('ResponseDataCloudinary: ', data);
+					//Destructuring data
+					const { url, eager } = data;
+					//Send to form image the value of url
+					this.inputChangeHandler(url, 'imagen');
+					console.log('stateofForm: ', this.state.form);
+					//Call the method to upload new
+					this.sendNewBusHandler();
+				})
+				.catch((err) => {
+					Alert.alert('Bus Escolar', 'Imagen fallida al enviar!', [ { text: 'Ok' } ], {
+						cancelable: false
+					});
+					console.log('ErrorCloudinary: ', err);
+				});
+		} else {
+			this.setState({ loading: false });
+			Alert.alert('Bus Escolar', '¡Complete el formulario correctamente!', [ { text: 'Ok' } ], {
+				cancelable: false
+			});
+		}
 	};
 
 	render() {
@@ -443,6 +552,9 @@ export default class BusEscolar extends Component {
 									value={e.config.value}
 									changed={(text) => this.inputChangeHandler(text, e.id)}
 									changed1={() => this.getTime(e.id)}
+									loadPhoto={this.loadPhotoHandler}
+									image={this.state.image}
+									name={this.state.fileNameImage}
 								/>
 							))}
 						</View>
@@ -465,7 +577,7 @@ export default class BusEscolar extends Component {
 					<View>
 						<HeaderToolbar 
 							open={this.props} 
-							title="Buses"
+							title="Bus Escolar"
 							color="#d4e283"
 							showContentRight={true}
 							titleOfAdd="Nuevo bus"
@@ -473,7 +585,7 @@ export default class BusEscolar extends Component {
 							add={() => this.setState({ addBus: true })}
 							goBack={() => this.setState({ addBus: false })}
 							isAdd={this.state.addBus}
-							save={this.sendNewBusHandler}
+							save={this.uploadPhotoHandler}
 							isAdmin={this.state.isAdmin}
 							changeDisplay={this.changeDisplay}
 							showLikeIcons={this.state.showLikeIcons}
@@ -518,7 +630,7 @@ const styles = StyleSheet.create({
 	cardBody: {
 		flex: 1,
 		flexDirection: 'column',
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
 	btns: {
 		flex: 1,

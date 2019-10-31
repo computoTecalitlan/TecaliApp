@@ -12,7 +12,13 @@ import {
 	Text
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import firebase from 'react-native-firebase';
+// import FCM, {
+// 	NotificationActionType,
+// 	RemoteNotificationResult,
+// 	WillPresentNotificationResult,
+// 	NotificationType,
+// 	FCMEvent
+// } from 'react-native-fcm';
 import HeaderToolbar from '../../components/HeaderToolbar/HeaderToolbar';
 import StatusBar from '../../UI/StatusBar/StatusBar';
 import axios from '../../../axios-ayuntamiento';
@@ -34,7 +40,6 @@ export default class Home extends Component {
 	_onNotificationListener;
 	_notificationOpenedListener;
 	_messageListener;
-	_notificationDisplayedListener
 
 	state = {
 		news: null,
@@ -62,9 +67,9 @@ export default class Home extends Component {
 				source={require('../../assets/images/Drawer/home-icon.png')}
 				style={styles.drawerIcon}
 				resizeMode="contain"
-				/>
-				),
-			};
+			/>
+		),
+	};
 
 	checkmsgPermission = async () => {
 		const checkPermissionResponse = await checkMessagingPermission();
@@ -90,42 +95,13 @@ export default class Home extends Component {
 		console.log('initialNotification: ', initialNotification);
 		this._messageListener = onMessage();
 		console.log('_messageListener: ', this._messageListener);
-		
-	};
-	createNotificationForiOS = async () => {
-		try {
-			this._notificationDisplayedListener = firebase.notifications().onNotificationDisplayed(notifDisplayed => {
-				console.log('notifDisplay: ', notifDisplayed);
-			});
-			
-			this._onNotificationListener = firebase.notifications().onNotification((notification) => {
-				console.log('notif: ', notification);
-				firebase.notifications().displayNotification(notification);
-			});
-			
-			this._notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-				// Get the action triggered by the notification being opened
-				console.log('notifOpen: ', notificationOpen);
-			});
-			const initialNotification = await firebase.notifications().getInitialNotification();
-			console.log('initialNotif: ', initialNotification);
-	
-			firebase.messaging().onMessage((msj) => {
-				console.log('msj: ', msj);
-			});
-
-			
-		} catch (error) {
-			
-		}
 	};
 
 	//Obtiene el token y tiempo de expiracion almacenado globalmente en la app
 	async componentDidMount() {
 		// react-native-firebase
-		Platform.OS === 'ios' && firebase.messaging().ios.registerForRemoteNotifications();
 		this.checkmsgPermission();
-		Platform.OS === 'android' ? this.createNotificationListener() : this.createNotificationForiOS();
+		this.createNotificationListener();
 		// react-native-firebase
 
 		//Request lcoation permissons

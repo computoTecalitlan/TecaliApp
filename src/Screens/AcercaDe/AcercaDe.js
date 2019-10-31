@@ -58,15 +58,13 @@ export default class AcercaDe extends React.Component {
 					<View style={styles.body}>
                             <Image style={styles.image} resizeMode="contain" source={require('../../assets/images/Ayuntamiento/logo-computo-blanco.png')} />
                             <ScrollView style={{ flex: 1 }}>
-                                <Text style={styles.text}>TecaliApp version 1.0</Text>
+                                <Text style={styles.text}>TecaliApp version 2.0</Text>
                                 
                                 <Text style={styles.text}>Desarrolladores</Text>
-                                <Text style={styles.subtext}>Carlos Alejandro</Text>
+                                <Text style={styles.subtext}>Ing. Carlos Alejandro</Text>
                                 <Text style={styles.subtext}>Buenrostro Ramírez</Text>
-                                <Text style={styles.subtext}>Alejandro López Herrera</Text>
-                                <Text style={styles.subtext}>Gerardo Ortiz Ramírez</Text>
-                                <Text style={styles.subtext}>Christian Mayela Guadalupe</Text>
-                                <Text style={styles.subtext}>Villagrana Martínez </Text>
+                                <Text style={styles.subtext}>Ldg. Alejandro López Herrera</Text>
+                                <Text style={styles.subtext}>Ing. Gerardo Ortiz Ramírez</Text>
                                 
                                 <Text style={styles.text}>Contacto</Text>
                                 <Text style={styles.subtext}>Correo:</Text>

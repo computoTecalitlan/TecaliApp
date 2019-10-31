@@ -28,16 +28,6 @@ const StyledContainer = styled.View`
 
 const StyledHeader = styled.View``;
 
-const StyledBuzon = styled.View`
-	flex: 1;
-	margin: 5px;
-`;
-
-const StyledForm = styled.View`
-	flex: 1;
-	flex-direction: column;
-`;
-
 export default class BuzonCiudadano extends Component {
 	_didFocusSubscription;
 	_willBlurSubscription;
@@ -52,7 +42,7 @@ export default class BuzonCiudadano extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 40
+					maxLength: 80
 				},
 				valid: false
 			},
@@ -72,7 +62,7 @@ export default class BuzonCiudadano extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 20
+					maxLength: 200
 				},
 				valid: false
 			},
@@ -82,7 +72,7 @@ export default class BuzonCiudadano extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 800
+					maxLength: 1500
 				},
 				valid: false
 			},
@@ -492,7 +482,7 @@ export default class BuzonCiudadano extends Component {
 					<StyledHeader>
 						<HeaderToolbar 
 							open={this.props}
-							title="Sugerencias"
+							title="Buzón Ciudadano"
 							color="#f8ae40"
 							showContentRight={true}
 							titleOfAdd="Nueva sugerencia"

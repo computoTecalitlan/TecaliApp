@@ -46,7 +46,7 @@ export default class Actividades extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 55
+					maxLength: 100
 				},
 				valid: false
 			},
@@ -58,7 +58,7 @@ export default class Actividades extends Component {
 			},
 			fecha: {
 				itemType: 'Date',
-				holder: 'Seleccione fecha',
+				holder: '01/01/2019',
 				value: '',
 				validation: {
 					haveValue: true
@@ -67,7 +67,7 @@ export default class Actividades extends Component {
 			},
 			hora: {
 				itemType: 'Hour',
-				holder: 'Seleccione la hora',
+				holder: 'Hora',
 				value: '',
 				validation: {
 					haveValue: true
@@ -80,7 +80,7 @@ export default class Actividades extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 150
+					maxLength: 1500
 				},
 				valid: false
 			},
@@ -383,7 +383,7 @@ export default class Actividades extends Component {
 					registration_ids: this.state.fcmTokens,
 					notification: {
 						title: 'Nueva actividad',
-						body: '!' + this.state.form['actividad'].value + '¡',
+						body: '¡' + this.state.form['actividad'].value + '!',
 						sound: null,
 						tag: this.state.form['actividad'].value,
 						priority: 'high'
@@ -425,7 +425,7 @@ export default class Actividades extends Component {
 					this.setState({ loading: false, image: null, fileNameImage: null, imageFormData: null });
 					Alert.alert(
 						'Actividades',
-						'Actividad enviada con exito!',
+						'¡Actividad enviada con exito!',
 						[ { text: 'Ok', onPress: () => this.getActivities() } ],
 						{
 							cancelable: false
@@ -729,7 +729,7 @@ export default class Actividades extends Component {
 					<View>
 						<HeaderToolbar
 							open={this.props}
-							title={'Actividades'}
+							title="Actividades"
 							color="#00a19a"
 							showContentRight={true}
 							titleOfAdd="Nueva Actividad"

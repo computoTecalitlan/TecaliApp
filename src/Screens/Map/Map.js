@@ -11,13 +11,15 @@ import {
 	Alert,
 	Modal,
 	TouchableOpacity,
-	Platform
+	Platform,
+	PermissionsAndroid,
 } from 'react-native';
 import { Card, CardItem } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
 import axiosCloudinary from 'axios';
 import MapView, { Marker, Callout } from 'react-native-maps';
+import Contact from 'react-native-contacts';
 import HeaderToolbar from '../../components/HeaderToolbar/HeaderToolbar';
 import StatusBar from '../../UI/StatusBar/StatusBar';
 import CustomSpinner from '../../components/CustomSpinner/CustomSpinner';
@@ -42,7 +44,7 @@ export default class Map extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 55
+					maxLength: 100
 				},
 				valid: false
 			},
@@ -52,7 +54,7 @@ export default class Map extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 55
+					maxLength: 100
 				},
 				valid: false
 			},
@@ -62,7 +64,7 @@ export default class Map extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 55
+					maxLength: 250
 				},
 				valid: false
 			},
@@ -72,7 +74,7 @@ export default class Map extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 55
+					maxLength: 100
 				},
 				valid: false
 			}
@@ -99,7 +101,9 @@ export default class Map extends Component {
 		chosenLocation: false,
 		category: 'Educación',
 		mapMarkers: [],
-		modalVisible: false
+		modalVisible: false,
+		isEdit: false,
+		itemId: null,
 	};
 
 	constructor(props) {
@@ -422,7 +426,7 @@ export default class Map extends Component {
 					this.setState({ loading: false, image: null, fileNameImage: null, imageFormData: null });
 					Alert.alert(
 						'Mapa',
-						'Nuevo marcador enviado con exito!',
+						'¡Nuevo marcador enviado con exito!',
 						// getMarkers
 						[ { text: 'Ok', onPress: () => this.getMarkers() } ],
 						{
@@ -447,7 +451,7 @@ export default class Map extends Component {
 	};
 
 	getMarkers = () => {
-		this.setState({ loading: true, addAct: false });
+		this.setState({ loading: true, addMarker: false });
 		axios
 			.get('/mapmarkers.json?auth=' + this.state.token)
 			.then((res) => {
@@ -547,6 +551,173 @@ export default class Map extends Component {
 		this.setState({ modalVisible: visible });
 	};
 
+	deleteItemListHandler = (itemKey) => {
+		axios
+			.delete('/mapmarkers' + '/' + itemKey + '.json?auth=' + this.state.token)
+			.then((response) => {
+				console.log('deleteItemListHandler:res: ', response);
+				Alert.alert(
+					'Mapa de Tecalitlán',
+					'¡Marcador eliminado con exito!',
+					[
+						{
+							text: 'Ok',
+							onPress: () => this.getMarkers()
+						}
+					],
+					{
+						cancelable: false
+					}
+				);
+			})
+			.catch((error) => {
+				console.log('deleteItemListHandler:res: ', error);
+				Alert.alert('Mapa de Tecalitlán', '¡Marcador fallido al eliminar!', [ { text: 'Ok' } ], {
+					cancelable: false
+				});
+			});
+	};
+
+	menuAlert = (item) => {
+		Alert.alert(
+			'Menu',
+			'Seleccione una opción',
+			[
+				{ text: 'Guardar', onPress: () =>  this.saveMarkerInContactHandler(item) },
+			  	this.state.isAdmin && { text: 'Eliminar', onPress: () => this.deleteItemListHandler(item.id)},
+			  	this.state.isAdmin && { text: 'Editar', onPress: () => this.editItemHandler(item) },
+			],
+			{ cancelable: true },
+		  );
+	};
+
+	editItemHandler = (item) => {
+		console.log('item: ', item);
+		const updatedForm = { ...this.state.formAddress };
+		for (let key in updatedForm	) {
+			updatedForm[key].value = item.mapMarkerData[key];
+		}
+		const updatedFocused = { ...this.state.focusedLocation };
+		updatedFocused.latitude = item.mapMarkerData.latitude;
+		updatedFocused.longitude = item.mapMarkerData.longitude;
+		this.setState({
+			formAddress: updatedForm,
+			focusedLocation: updatedFocused,
+			caterory: item.mapMarkerData.categoria,
+			itemId: item.id
+		}, () => this.enableEdition());
+	};
+
+	enableEdition = () => {
+		console.log('formAdress: ', this.state.formAddress, 'focusedLocation: ', this.state.focusedLocation);
+		this.setState({ addMarker: true, isEdit: true, chosenLocation: true });
+	};
+
+	cleanFields = () => {
+		const updatedForm = { ...this.state.formAddress };
+		for (let key in updatedForm	) {
+			updatedForm[key].value = ''
+		}
+		const updatedFocused = { ...this.state.focusedLocation };
+		updatedFocused.latitude = 19.47151;
+		updatedFocused.longitude = -103.30706;
+		this.setState({ 
+			formAddress: updatedForm,
+			focusedLocation: updatedFocused,
+			isEdit: false,
+			chosenLocation: false,
+			category: 'Educación'
+		 })
+	};
+
+	updateItemHandler = () => {
+		const formData = {};
+			for (let formElementIdentifier in this.state.formAddress) {
+				formData[formElementIdentifier] = this.state.formAddress[formElementIdentifier].value;
+			}
+			formData['latitude'] = this.state.focusedLocation.latitude;
+			formData['longitude'] = this.state.focusedLocation.longitude;
+			formData['categoria'] = this.state.category;
+			const mapMarker = {
+				mapMarkerData: formData
+			};
+		axios
+			.patch(
+				"/mapmarkers" +
+				"/" +
+				this.state.itemId +
+				".json?auth=" +
+				this.state.token,
+				mapMarker
+			)
+			.then(response => {
+				console.log("approveItemListHandler:res: ", response);
+				Alert.alert(
+				"Mapa de Tecalitlán",
+				'¡Marcador editado con exito!',
+				[{ text: "Ok", onPress: () => { this.getMarkers(); this.cleanFields(); } }],
+				{
+					cancelable: false
+				}
+				);
+			})
+			.catch(error => {
+				console.log("approveItemListHandler:res: ", error);
+				Alert.alert(
+				"Mapa de Tecalitlán",
+				"Marcador fallido al editar!",
+				[{ text: "Ok" }],
+				{
+					cancelable: false
+				}
+				);
+			});
+	};
+
+	saveMarkerInContactHandler = async(item) => {
+		if (Platform.OS === 'android') {
+			const resWrite = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_CONTACTS, {
+				'title': 'TecaliApp',
+				'message': 'Esta aplicación quiere gurdar contactos en tu celular.'
+			});
+			const resRead = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+				'title': 'TecaliApp',
+				'message': 'Esta aplicación quiere leer contactos en tu celular.'
+			});
+			console.log('resWrite: ', resWrite);
+			console.log('resRead: ', resRead);
+			console.log('item: ', item);
+			if (resWrite && resRead) {
+				const newContact = {
+					recordID: item.id,
+					company: item.mapMarkerData.name,
+					jobTitle: item.mapMarkerData.name,
+					phoneNumbers: [{
+					  label: "mobile",
+					  number: item.mapMarkerData.phone,
+					}],
+					postalAddresses: [
+					  {
+						street: item.mapMarkerData.address,
+						city: "Tecalitlán",
+						state: 'Jalisco',
+						region: 'MX',
+						postCode: '49900',
+						country: 'MX',
+						label: 'Work'
+					  }
+					],
+				};
+				Contact.addContact(newContact, (err) => {
+					if (err) console.log('err: ', err);
+					else console.log('saved successful');
+				});
+			} else {
+				//Implemented on iOS
+			}
+		}
+	};
+
 	render() {
 		const spinner = <CustomSpinner color="blue" />;
 
@@ -587,23 +758,30 @@ export default class Map extends Component {
 						key={mmr.id}
 						coordinate={{ latitude: mmr.mapMarkerData.latitude, longitude: mmr.mapMarkerData.longitude }}
 						title={mmr.mapMarkerData.name}
+						style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}
 					>
 						<View style={this.getStyleLogoHandler(mmr.mapMarkerData.categoria)}>
 							<Image style={styles.marker} source={this.getLogoHandler(mmr.mapMarkerData.categoria)} />
 						</View>
-						<Callout>
+						<Callout
+							tooltip={true}
+							onPress={() => this.menuAlert(mmr)}
+						>
 							{mmr.mapMarkerData.name && (
-								<View style={{ flex: 1, width: 250 }}>
+								<View style={{ 
+										flex: 1, 
+										width: 250, 
+										justifyContent: 'center', 
+										backgroundColor: 'white',
+										padding: 10, 
+									}}
+								>
 									{mmr.mapMarkerData.name && <Text>{mmr.mapMarkerData.name}</Text>}
 									{mmr.mapMarkerData.address && <Text>{mmr.mapMarkerData.address}</Text>}
 									{mmr.mapMarkerData.schedule && <Text>{mmr.mapMarkerData.schedule}</Text>}
 									{mmr.mapMarkerData.phone && <Text>Telefono: {mmr.mapMarkerData.phone}</Text>}
 								</View>
 							)}
-							{/* Bug for android */}
-							{/* {mmr.mapMarkerData.tarjeta && <View style={{ flex: 1, justifyContent: 'center', height: height * .24 }}>
-								<Image source={{ uri: mmr.mapMarkerData.tarjeta }} style={{ height: height * .24, width: height * .40, flex: 1 }} resizeMode="cover" />
-							</View>} */}
 						</Callout>
 					</Marker>
 				))}
@@ -613,23 +791,17 @@ export default class Map extends Component {
 		const addMarkerTitle = (
 			<View style={{ flex: 1, marginBottom: 10 }}>
 				<CustomAddBanner
-					title="NUEVO MARCADOR"
+					title={this.state.isEdit ? "EDITAR MARCADOR" : "NUEVO MARCADOR"}
 					image={require('../../assets/images/Preferences/add-orange.png')}
 				/>
 			</View>
 		);
+		console.log('elements to map: ', formElements);
 		const addMarkerBody = (
 			<Card style={styles.addMarker}>
 				<ScrollView style={{ flex: 1 }}>
 					<CardItem bordered>
 						<View style={styles.cardBody}>
-							{/* Select to upload image */}
-							{/* <CustomInput
-								key="select"
-								itemType="PickAddress"
-								value={this.state.picker}
-								changed={(text) => this.changePickerHandler(text)}
-							/> */}
 							{this.state.specificData ? (
 								formElements.map((e) => (
 									<CustomInput
@@ -795,7 +967,7 @@ export default class Map extends Component {
 								this.filterMarkersHandler('Servicios medicos');
 							}}
 						>
-							<Text style={styles.modalBodyText}>Servicios medicos</Text>
+							<Text style={styles.modalBodyText}>Servicios médicos</Text>
 							<Image
 								source={require('../../assets/images/Map/hospital.png')}
 								style={{ height: width * 0.08, width: width * 0.08 }}
@@ -858,15 +1030,15 @@ export default class Map extends Component {
 					<View>
 						<HeaderToolbar
 							open={this.props}
-							title="Mapa"
+							title="Mapa de Tecalitlán"
 							color="#f8ae40"
 							showContentRight={true}
 							titleOfAdd="Nuevo marcador"
 							get={this.getMarkers}
 							add={() => this.setState({ addMarker: true })}
-							goBack={() => this.setState({ addMarker: false })}
+							goBack={() => { this.setState({ addMarker: false }); this.cleanFields() }}
 							isAdd={this.state.addMarker}
-							save={this.uploadPhotoHandler}
+							save={this.state.isEdit ? this.updateItemHandler : this.uploadPhotoHandler}
 							isAdmin={this.state.isAdmin}
 						/>
 					</View>

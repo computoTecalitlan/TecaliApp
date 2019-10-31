@@ -62,7 +62,7 @@ export default class Noticias extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 55
+					maxLength: 100
 				},
 				valid: false
 			},
@@ -87,7 +87,7 @@ export default class Noticias extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 150
+					maxLength: 1500
 				},
 				valid: false
 			},
@@ -230,7 +230,7 @@ export default class Noticias extends Component {
 					registration_ids: this.state.fcmTokens,
 					notification: {
 						title: 'Nueva noticia',
-						body: '!' + this.state.form['noticia'].value + '¡',
+						body: '¡' + this.state.form['noticia'].value + '!',
 						sound: null,
 						tag: this.state.form['noticia'].value,
 						priority: 'high'
@@ -485,7 +485,7 @@ export default class Noticias extends Component {
 					this.setState({ loading: false, image: null, fileNameImage: null, imageFormData: null });
 					Alert.alert(
 						'Noticias',
-						'Noticia enviada con exito!',
+						'¡Noticia enviada con exito!',
 						[ { text: 'Ok', onPress: () => this.getNews() } ],
 						{
 							cancelable: false

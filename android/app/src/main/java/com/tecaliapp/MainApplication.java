@@ -20,6 +20,7 @@ import com.vonovak.AddCalendarEventPackage;
 import io.invertase.firebase.RNFirebasePackage; // <-- react-native-firebase
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- react-native-firebase
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+import com.rt2zz.reactnativecontacts.ReactNativeContacts; 
 
 import org.wonday.pdf.RCTPdfView;
 
@@ -50,8 +51,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RCTPdfView(),
             new ImagePickerPackage(),
             new RNFirebaseMessagingPackage(),
-            new RNFirebaseNotificationsPackage()  // <-- react-native-firebase
-
+            new RNFirebaseNotificationsPackage(),  // <-- react-native-firebase
+            new ReactNativeContacts()
       );
     }
 

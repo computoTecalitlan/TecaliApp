@@ -43,7 +43,7 @@ export default class Incidencias extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 35
+					maxLength: 100
 				},
 				valid: false
 			},
@@ -57,7 +57,7 @@ export default class Incidencias extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 100
+					maxLength: 1500
 				},
 				valid: false
 			}
@@ -69,7 +69,7 @@ export default class Incidencias extends Component {
 				holder: 'Nombre',
 				validation: {
 					minLength: 1,
-					maxLength: 50
+					maxLength: 100
 				},
 				valid: false
 			},
@@ -114,7 +114,7 @@ export default class Incidencias extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 15
+					maxLength: 150
 				},
 				valid: false
 			},
@@ -124,7 +124,7 @@ export default class Incidencias extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 15
+					maxLength: 20
 				},
 				valid: false
 			},
@@ -134,7 +134,7 @@ export default class Incidencias extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 15
+					maxLength: 150
 				},
 				valid: false
 			},
@@ -154,7 +154,7 @@ export default class Incidencias extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 15
+					maxLength: 150
 				},
 				valid: false
 			},
@@ -164,7 +164,7 @@ export default class Incidencias extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 15
+					maxLength: 150
 				},
 				valid: false
 			}
@@ -417,21 +417,21 @@ export default class Incidencias extends Component {
 				.then((response) => {
 					this.setState({ loading: false });
 					Alert.alert(
-						'Incidencias',
-						'¡Incidencia enviada con exito!',
+						'Reporte Ciudadano',
+						'¡Reporte enviado con exito!',
 						[ { text: 'Ok', onPress: () => this.getIncidents() } ],
 						{ cancelable: false }
 					);
 				})
 				.catch((error) => {
 					this.setState({ loading: false });
-					Alert.alert('Incidencias', '¡Error al enviar incidencia!', [ { text: 'Ok' } ], {
+					Alert.alert('Reporte Ciudadano', '¡Error al enviar incidencia!', [ { text: 'Ok' } ], {
 						cancelable: false
 					});
 				});
 		} else {
 			this.setState({ loading: false });
-			Alert.alert('Incidencias', '¡Comlete el formulario correctamente!', [ { text: 'Ok' } ], {
+			Alert.alert('Reporte Ciudadano', '¡Comlete el formulario correctamente!', [ { text: 'Ok' } ], {
 				cancelable: false
 			});
 		}
@@ -1013,7 +1013,7 @@ export default class Incidencias extends Component {
 					<View>
 						<HeaderToolbar
 							open={this.props}
-							title="Reporte"
+							title="Reporte Ciudadano"
 							color="#1dd2fc"
 							showContentRight={true}
 							titleOfAdd="Nuevo reporte"

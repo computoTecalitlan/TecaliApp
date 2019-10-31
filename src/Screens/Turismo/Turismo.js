@@ -42,7 +42,7 @@ export default class Turismo extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 55
+					maxLength: 100
 				},
 				valid: false
 			},
@@ -58,7 +58,7 @@ export default class Turismo extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 150
+					maxLength: 1500
 				},
 				valid: false
 			},

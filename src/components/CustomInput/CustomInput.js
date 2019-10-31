@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, Text, Dimensions, Platform, DatePickerIOS } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Text, Dimensions, Platform, DatePickerIOS, Button } from 'react-native';
 import { Item, Input, Label, Textarea, DatePicker, Picker } from 'native-base';
 import MapView, { Marker } from 'react-native-maps';
 import { normalize } from '../AuxiliarFunctions/FontResponsive';
@@ -31,10 +31,11 @@ const customInput = (props) => {
 			);
 			break;
 		case 'FloatingLabel':
+			console.log('floatingValue: ', props.value);
 			input = (
 				<Item floatingLabel>
 					<Label style={{ color: '#676766', fontSize: 17 }}>{props.holder}</Label>
-					<Input style={{ color: '#676766', fontSize: 17 }} onChangeText={props.changed} secureTextEntry={props.password} />
+					<Input value={props.value} style={{ color: '#676766', fontSize: 17 }} onChangeText={props.changed} secureTextEntry={props.password} />
 				</Item>
 			);
 			break;
@@ -55,7 +56,12 @@ const customInput = (props) => {
 		case 'Date':
 			input = (
 				// marginRight don't work 
-				<View style={{  marginRight: Platform.OS === 'ios' ? 18 : 22 }}>
+				<View style={{  
+						flex: 1, 
+						marginRight: Platform.OS === 'ios' ? 18 : 22,
+					}}
+				>
+					<Text style={{ color: '#676766', fontSize: 17, borderBottomWidth: 2, borderColor: '#676766'  }}>Clic en la fecha</Text>
 					<DatePicker
 						defaultDate={new Date()}
 						minimumDate={new Date(2018, 1, 1)}
@@ -63,8 +69,8 @@ const customInput = (props) => {
 						locale={'es'}
 						timeZoneOffsetInMinutes={undefined}
 						modalTransparent={false}
-						animationType={'fade'}
-						androidMode={'calendar'}
+						animationType="fade"
+						androidMode="calendar"
 						placeHolderText={props.holder}
 						textStyle={{ color: '#676766', fontSize: 17 }}
 						placeHolderTextStyle={{ color: '#676766', fontSize: 17 }}
@@ -87,10 +93,27 @@ const customInput = (props) => {
 					/>
 				</View>
 			) : input = (
-				<Item floatingLabel>
-					<Label style={{ color: '#676766', fontSize: 17 }}>{props.holder}</Label>
-					<Input style={{ color: '#676766', fontSize: 17 }} value={props.value} onTouchStart={props.changed1} />
-				</Item>
+				<View>
+					<Text style={{ 
+							color: '#676766', 
+							fontSize: 17, 
+							marginBottom: 5, 
+							borderBottomWidth: 2, 
+							borderColor: '#676766',
+							marginRight: Platform.OS === 'ios' ? 18 : 22, 
+						}}
+					>
+						Seleccione la hora
+					</Text>
+					<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+						<View style={{ flex: 1 }}>
+							<Button color="blue" onPress={props.changed1} title="Seleccionar" />
+						</View>
+						<View style={{ flex: 1 }}>
+							<Label style={{ color: '#676766', fontSize: 17, alignSelf: 'center' }}>{props.value ? props.value : props.holder}</Label>
+						</View>
+					</View>
+				</View>
 			);
 			break;
 		case 'PickerSchedule':

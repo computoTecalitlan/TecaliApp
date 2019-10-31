@@ -67,7 +67,7 @@ export default class Eventos extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 55
+					maxLength: 100
 				},
 				valid: false
 			},
@@ -113,7 +113,7 @@ export default class Eventos extends Component {
 				value: '',
 				validation: {
 					minLength: 1,
-					maxLength: 150
+					maxLength: 1500
 				},
 				valid: false
 			}
@@ -258,7 +258,7 @@ export default class Eventos extends Component {
 					registration_ids: this.state.fcmTokens,
 					notification: {
 						title: 'Nuevo evento',
-						body: '!' + this.state.form['evento'].value + '¡',
+						body: '¡' + this.state.form['evento'].value + '!',
 						sound: null,
 						tag: this.state.form['evento'].value,
 						priority: 'high'
