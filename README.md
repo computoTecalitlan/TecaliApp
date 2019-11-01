@@ -1,4 +1,5 @@
 # TecaliApp
+<<<<<<< HEAD
 ## A project of residencies created with react-native to the government of Tecalitlán.
 
 <img src="https://raw.githubusercontent.com/AlexBuenrostro12/AyuntamientoApp/master/src/assets/images/Ayuntamiento/logo-naranja.png" width="400">
@@ -27,3 +28,6 @@ You can be able to make payments from the app
 ### Turismo <img src="https://raw.githubusercontent.com/AlexBuenrostro12/AyuntamientoApp/master/src/assets/images/Drawer/tourism.png" width="25">
 Check out the most crowded places in Tecalitlán
 
+=======
+Aplicación móvil del municipio de Tecalitlán para iOS y Android
+>>>>>>> 3e2e5f93bb1a751648fb4522a4224ced83152933
