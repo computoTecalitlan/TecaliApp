@@ -713,7 +713,31 @@ export default class Map extends Component {
 					else console.log('saved successful');
 				});
 			} else {
-				//Implemented on iOS
+				//Implemented on iOS link natively
+				const newContact = {
+					recordID: item.id,
+					company: item.mapMarkerData.name,
+					jobTitle: item.mapMarkerData.name,
+					phoneNumbers: [{
+					  label: "mobile",
+					  number: item.mapMarkerData.phone,
+					}],
+					postalAddresses: [
+					  {
+						street: item.mapMarkerData.address,
+						city: "Tecalitlán",
+						state: 'Jalisco',
+						region: 'MX',
+						postCode: '49900',
+						country: 'MX',
+						label: 'Work'
+					  }
+					],
+				};
+				Contact.addContact(newContact, (err) => {
+					if (err) console.log('err: ', err);
+					else console.log('saved successful');
+				});
 			}
 		}
 	};
