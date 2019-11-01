@@ -47,8 +47,8 @@
 		8442FC99353447848DE0B4D5 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F2FD289C0CD4F2B89C61FA6 /* Roboto.ttf */; };
 		9090C096233A9E3C009C465C /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9090C095233A9E3C009C465C /* UserNotifications.framework */; };
 		9095B26D2347A9E700BBF1DE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
-		9095B2D62347BB0F00BBF1DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9095B2D52347BB0F00BBF1DE /* GoogleService-Info.plist */; };
 		90A5062423451BA600B667D4 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90A5062323451B9C00B667D4 /* libRNFirebase.a */; };
+		90CEFEFD236CB08300664084 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90CEFEB4236CB08300664084 /* GoogleService-Info.plist */; };
 		90EBC612232AC4EC00893F69 /* boton app.png in Resources */ = {isa = PBXBuildFile; fileRef = 90EBC611232AC4EC00893F69 /* boton app.png */; };
 		9A26E8543CF34AE88DF47F92 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F4F54AE3BBB4DECBFFAA7B2 /* Octicons.ttf */; };
 		ADCD85CE5D854EA1A116DD16 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 96FB847EF903419FA77D8EE3 /* FontAwesome5_Regular.ttf */; };
@@ -584,9 +584,9 @@
 		5D73C27CD74B4B508ED73B87 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		7F2FD289C0CD4F2B89C61FA6 /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = "../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
 		9090C095233A9E3C009C465C /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		9095B2D52347BB0F00BBF1DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		90A5061E23451B9C00B667D4 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		90C95F2EE1514A70931397A8 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		90CEFEB4236CB08300664084 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		90EBC611232AC4EC00893F69 /* boton app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "boton app.png"; path = "../boton app.png"; sourceTree = "<group>"; };
 		96FB847EF903419FA77D8EE3 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -702,7 +702,7 @@
 		13B07FAE1A68108700A75B9A /* TecaliApp */ = {
 			isa = PBXGroup;
 			children = (
-				9095B2D52347BB0F00BBF1DE /* GoogleService-Info.plist */,
+				90CEFEB4236CB08300664084 /* GoogleService-Info.plist */,
 				90EBC611232AC4EC00893F69 /* boton app.png */,
 				15858F0A230C5E7200E5A6B0 /* TecaliApp.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -1728,9 +1728,9 @@
 				244A0ED475984BB0A60502C2 /* MaterialCommunityIcons.ttf in Resources */,
 				6061001B7A894B42A6239156 /* MaterialIcons.ttf in Resources */,
 				9A26E8543CF34AE88DF47F92 /* Octicons.ttf in Resources */,
+				90CEFEFD236CB08300664084 /* GoogleService-Info.plist in Resources */,
 				23DCF929837446C7A2A283CC /* Roboto_medium.ttf in Resources */,
 				8442FC99353447848DE0B4D5 /* Roboto.ttf in Resources */,
-				9095B2D62347BB0F00BBF1DE /* GoogleService-Info.plist in Resources */,
 				CC46B9A074764A499B7AAB63 /* rubicon-icon-font.ttf in Resources */,
 				4B14131DD9B749B288B948C5 /* SimpleLineIcons.ttf in Resources */,
 				AF13918E414B4183A7053961 /* Zocial.ttf in Resources */,
