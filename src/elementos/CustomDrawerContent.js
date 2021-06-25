@@ -8,8 +8,21 @@ const ContenidoDrawer = (props) => {
 
     const{state,...rest} = props;
     const newState = {...state}
-    newState.routes = newState.routes.filter(item => item.name !== 'Salir')
-    return ( 
+    //En la constante state se guardan las screens y sus propiedades que se declaran en ContenedorApp.js y RutaProtegida.js
+    // Se guardan en otra variable llamada newState que se encarga de filtrar las Screens del drawer
+    // todas las Screens filtradas no heredaran el diseño del drawer, tendran su propio estilo
+    // en este caso son para renderizar pantallas de modificacion de datos, por lo que no necesitamos mostrarlas en el drawer.
+    newState.routes = newState.routes.filter(item => 
+        item.name !== 'act' 
+        && item.name !== 'actividad' 
+        && item.name !== 'evento'
+        && item.name !== 'agregarMap'
+        && item.name !== 'noticia'
+        && item.name !== 'mapaEliminar'
+        && item.name !==  'listaReporte')
+   
+   //Aqui comienza la construccion del drawer, con la imagen del ciudadano siendo lo primero en ser renderizado, y despues le sigue la lista de pantallas filtradas
+        return ( 
         <SafeAreaView style={styles.sAV} >
             <View style={styles.view} >
                 <Image

@@ -1,49 +1,112 @@
 import React, { useState } from 'react';
-import {Text, View,Dimensions,ScrollView,Image, TouchableOpacity} from 'react-native';
+import {Text, View,Dimensions,ScrollView,Image, TouchableOpacity, ViewPropTypes, StatusBar} from 'react-native';
 import { useEffect } from 'react/cjs/react.development';
 import {db} from './../firebase/firebaseConfig';
 import imgCargando from './../Imagenes/noticia.png'
 import BottomSheet from 'reanimated-bottom-sheet';
-import { Button } from 'native-base';
+import CustomHeader from './../elementos/CustomHeader';
+import MapView,{PROVIDER_GOOGLE,Marker} from 'react-native-maps';
+import CartaEncabezadoPersonalizada from '../elementos/CartaEncabezadoPersonalizada';
 
 const {width,height} = Dimensions.get('window');
 
 const Turismo = () => {
      const [cargando,cambiarCargando] = useState(true);
      const [lugares,cambiarLugares] = useState([]);
-     const [content,cambiarContent] = useState([]);
-    useEffect(()=>{
+     const [content,cambiarContent] = useState([]);//Utilizada para almacenar los datos y visualizarlos en la bottomSheet
+     const [imagenes,cambiarImagenes] = useState([]);
+    //Consulta al cargar
+     useEffect(()=>{
+        obtenerDatos();
+    },[])
+    //Consulta a la BD
+    const obtenerDatos = () =>{
         try{
-        const turRef = db.ref('tourism');
-        const lista = [];
-    
-        turRef.on(('value'),(snapshot) => {
-            const snap = snapshot.val();
-    
-            for(let id in snap){
-                lista.push(snap[id].placeData);
+            const turRef = db.ref('tourism');
+            const lista = [];
+            turRef.on(('value'),(snapshot) => {
+                const snap = snapshot.val();
+        
+                for(let id in snap){
+                    lista.push(snap[id].placeData);
+                    
+                }
+                cambiarCargando(false);
+            })
+            cambiarLugares(lista);
+            
+            }catch(error){
+                alert(error);
             }
-            cambiarCargando(false);
-        })
-        cambiarLugares(lista);
-        }catch(error){
-            console.error(error);
-        }
-    },[])
-    useEffect(()=>{
-        return(
-            cambiarCargando(true)
-        );
-    },[])
+    }
+   //Contenido del BottomSheet
 const renderContent = () => (
-    <View style={{height:height,backgroundColor:'#fff'}}>
-         <Text>{content.descripcion}</Text>
-         <Image source={{uri:content.url1}} style={{height:height / 4,width: width}}/>
-    </View>
-)
+    content.length != 0 ?
+    <View style={{height:height * 1.4,backgroundColor:'#fff',width:width * .99}}>
+        <Image source={{uri:content.imagen}} style={{height: height /3 ,width: width * .99}}/>
+        <Text style={{fontWeight:'bold',color:'#f8ae40',textAlign:'center'}}>{content.lugar}</Text> 
+        <View style={{width:width * .98,height:200}}>
+        <Text style={{textAlign:'justify',fontWeight:'bold',color:'#828282'}}>{content.descripcion}</Text>
+        </View>
+        <View style={{width:width,height:295}}>
+            <MapView 
+                region={{
+                    latitude:content.latitude,
+                    longitude:content.longitude,
+                    latitudeDelta: 0.0522,
+                    longitudeDelta: width / 295 * 0.0322,
+                }}
+                style={{width:width,height:295}}
+                provider={PROVIDER_GOOGLE}
+            >
+                <Marker 
+                    coordinate={{
+                        latitude: content.latitude,
+                        longitude:content.longitude
 
+                    }}
+                    title={content.lugar}
+                />
+            </MapView>
+        </View>
+                
+         
+    </View>
+    :
+    <></>
+)
+     //Funcion para la barra de busqueda
+     const filtrar = (text) => {
+        if(text != ''){
+           cambiarCargando(true);
+           const busqueda = lugares.filter(lug =>{
+            let ban = false;
+                const filtrada = lug['lugar'];
+                if(filtrada.includes(text)){
+                    ban = true;
+                    cambiarCargando(false);
+                    if(ban){
+                        return lug;
+                    }
+                }
+               
+            })
+            cambiarLugares(busqueda);
+            
+        }
+        else if(text == ''){
+            cambiarCargando(true);
+            obtenerDatos();
+        }
+     } 
+//Para el boton de actualizar del header. Consultamos de nuez :P
+const actualizar = () =>{
+    obtenerDatos();
+}
+
+//El Header del BottomSheet o la pestaña que se visualiza para que el usuario la arrastre.
 const renderHeader = () => (
-    <View style={{borderTopLeftRadius:50,borderTopRightRadius:50,backgroundColor:'#828282',height:40,flexDirection:'row',alignContent:'center'
+    <View style={{borderTopLeftRadius:50,borderTopRightRadius:50,backgroundColor:'#828282',height:40,flexDirection:'row',alignContent:'center',width:width * .99
     }}>
         <Text 
         style={{
@@ -57,37 +120,54 @@ const renderHeader = () => (
     </View>
     
 )
-    const sheetRef = React.useRef(null);
+    const sheetRef = React.useRef(null); //Referencia al BottomSheet para llamar sus posiciones en la pantalla
     return ( 
-        <View style={{width:width * 98,height : height * .88,borderColor:'#828282', borderWidth:5,borderRadius:2}}>
-            {cargando == true ? 
-                <ScrollView>
+        <View style={{height: height,flex:1}}>
+            <View style={{width:width,height:100}}>
+            <CustomHeader nombre='noticias' actualizar={actualizar} filtrar={filtrar}/>
+            </View>
+            {cargando == false ? 
+            <View style={{flex:1,width:width,height:height * .80}}>
+                <ScrollView 
+                   style={{flex:1}}
+                >
                     {lugares.reverse().map((lugar,index)=>{
                         return(
                             <TouchableOpacity key={index} onPress={() => {
+                                cambiarContent([])
                                 cambiarContent(lugar);
-                                console.log(content)
+                                
+                                
                                 sheetRef.current.snapTo(0);
-                            }}>
-                                <Image source={{uri:lugar.imagenes.url0}} style={{height:height / 4 ,borderRadius:10, resizeMode:'cover'}}/>
+                            }}
+                            >
+                                <View style={{backgroundColor: '#828282',
+                                                borderRadius:10,
+                                                height: height * .25,
+                                                width: width * .99,
+                                                }}>
+                                <Image source={{uri:lugar.imagen}} style={{height:100,width: width * .99,alignSelf:'center',borderTopLeftRadius:10,borderTopRightRadius:10}}/>
+                                <Text style={{fontWeight:'bold',color:'#fff',alignSelf:'center'}}>{lugar.lugar}</Text>
+                                </View>
                             </TouchableOpacity>
                         )
                     })}
                 </ScrollView>
+                <BottomSheet
+                ref={sheetRef} //Su referencia para hacer el llamado a este componente
+                snapPoints={[height * .95,300,0]} //Obligatorio, las posiciones de la hoja en la pantalla
+                enabledHeaderGestureInteraction={true}
+                renderContent={renderContent}
+                renderHeader={renderHeader}
+                initialSnap={2}
+            />
+                </View>
             :
             <View style={{flex:1}}>
-                <Image source={imgCargando} style={{width:200,height:200,alignSelf:'center',resizeMode:'contain'}}/>
-                <Text style={{alignSelf:'center'}}>Estamos investigando ... </Text> 
-            </View> 
+            <Image source={imgCargando} style={{width:200,height:200,alignSelf:'center',resizeMode:'contain'}}/>
+            <Text style={{alignSelf:'center'}}>Estamos investigando ... </Text> 
+        </View> 
             } 
-            <BottomSheet
-                  ref={sheetRef}
-                  snapPoints={[height * .95,300,0]}ç
-                  enabledHeaderGestureInteraction={true}
-                  renderContent={renderContent}
-                  renderHeader={renderHeader}
-                  initialSnap={2}
-            />
         </View>
      );
 }

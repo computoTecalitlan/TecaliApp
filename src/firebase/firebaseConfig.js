@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import 'firebase/storage';
 var firebaseConfig = {
   apiKey: "AIzaSyCnH6V7DIofwmPbRqYN4ToY15kC-Jx7LbI",
   authDomain: "ayuntamiento-77d3b.firebaseapp.com",
@@ -19,5 +20,6 @@ var firebaseConfig = {
 
   const db = firebase.database();
   const auth = firebase.auth();
+  const storage = firebase.storage();
 
-  export {db,auth};
+  export {db,auth,storage};

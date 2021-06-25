@@ -6,7 +6,7 @@ import fondo4 from './../Imagenes/Gif/teca-centro4.gif';
 import fondo5 from './../Imagenes/Gif/teca-centro5.gif';
 
 
-
+//Crea un numero al azar  del 1 al 5 y dependiendo del numero devuelve una imagen,
 const imagenFondoInicio = () => {
     const numero = Math.floor(Math.random() * 5) +1;
     const [imagen,cambiarImagen] = useState();

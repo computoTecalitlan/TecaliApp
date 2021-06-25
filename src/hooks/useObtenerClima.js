@@ -13,7 +13,13 @@ const{usuario} = useAuth();
 			cambiarClima({temperatura:json.main.temp,icono: json.weather[0].icon});
             cambiarCargando(false);
 		})
-        .catch(error => alert(error))
+        .catch(error => {
+            if(error == 'TypeError: Network request failed'){
+                alert('No hemos podido conectar con el clima. Revisa tu conexión a internet.')
+            }else{
+                alert('Ha ocurrido un error, con el clima');
+            }
+        })
     },[usuario]);
     return clima;
 }

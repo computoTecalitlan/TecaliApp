@@ -3,11 +3,12 @@ import {View,Text,StyleSheet,Dimensions,TouchableOpacity,Animated,Image} from 'r
 import {ScrollView} from 'react-native-gesture-handler';
 const {height,width} = Dimensions.get('window');
 import {db} from '../firebase/firebaseConfig';
+import {useNavigation} from '@react-navigation/native';
 
 const CustomSwiperNoticias = () => {
    const [actividades,cambiarActividades] = useState([]);
     const [cargando,cambiarCargando] = useState(true);
-
+    const navigator = useNavigation();
    useEffect(()=>{
        consultarActividades();
    },[])
@@ -31,8 +32,6 @@ const CustomSwiperNoticias = () => {
        }
 
    }
-   //------------------------------------------------------------------------------- CODIGO DE ANIMACION DEL COMPONENTE--------------------------------------
- //-----------------------------------------------------------------------------------------------------------------------------------------------------
    if(cargando == false){
    return ( 
         //Se declara de tipo animated todo el contenedor de las actividades para que este aparezca y desaparezca cuando el usuario lo arrastre.
@@ -43,15 +42,23 @@ const CustomSwiperNoticias = () => {
             <ScrollView   style={{}} horizontal={true}>
                 {actividades.reverse().map((actividad,index) => {
                     return(
-                        <TouchableOpacity onPress={() => {alert('Presionaste la actividad')}} key={index}>
-                            <View style={estilo.card}>
+                        <TouchableOpacity key={index} onPress={() => navigator.navigate('actividad',{
+                            actividad:actividad.actividad,
+                            descripcion:actividad.descripcion,
+                            fecha:actividad.fecha,
+                            hora:actividad.hora,
+                            imagen:actividad.imagen,
+                            id: actividad.id
+                        })}>
+                                 <View style={estilo.card} >
                                 <Image source={{uri:actividad.imagen}} style={estilo.imageCard}/>
                                 <View style={estilo.tituloCard}>
                                     <Text style={{alignSelf:'center',color:"#fff",fontWeight:"bold"}}>{actividad.actividad}</Text>
                                 </View>
-                                <Text style={{color:"#828282",fontWeight:"bold"}}>{actividad.descripcion}</Text>
+                                <Text style={{color:"#828282",fontWeight:"bold",alignSelf:'center'}}>{actividad.fecha}</Text>
+                                <Text style={{color:"#828282",fontWeight:"bold",alignSelf:'center'}}>{actividad.hora}</Text>
                             </View>
-                        </TouchableOpacity> 
+                        </TouchableOpacity>
                     );
                 })}            
             </ScrollView>

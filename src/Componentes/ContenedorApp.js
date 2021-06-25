@@ -1,15 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import AcercaDe from './../Pantallas/AcercaDe';
-import Actividades from './../Pantallas/Actividades';
-import BusEscolar from './../Pantallas/BusEscolar';
+import Actividades from './../Pantallas/ActividadCiudadano';
 import BuzonCiudadano from './../Pantallas/BuzonCiudadano';
 import Eventos from './../Pantallas/Eventos';
 import MapaTeclalitlan from './../Pantallas/MapaTecalitlan';
 import Noticias from './../Pantallas/Noticias';
-import Pagos from './../Pantallas/Pagos';
 import PantallaCerrarSesion from './../Pantallas/PantallaCerrarSesion';
-import PantallaInicioSesion from './../Pantallas/PantallaInicioSesion';
 import ReporteCiudadano from './../Pantallas/ReporteCiudadano';
 import Transparencia from './../Pantallas/Transparencia';
 import Turismo from './../Pantallas/Turismo';
@@ -17,25 +14,24 @@ import Inicio from './../Pantallas/Inicio';
 import ContenidoDrawer from '../elementos/CustomDrawerContent';
 import HomeIcon from './../Imagenes/home-icon.png';
 import AboutIcon from './../Imagenes/about.png'
-import ActivitiesIcon from './../Imagenes/activities.png';
-import BusIcon from './../Imagenes/bus.png';
 import EventsIcon from './../Imagenes/events.png';
 import LogoutIcon from './../Imagenes/logout.png';
 import MailBoxIcon from './../Imagenes/mailbox.png';
 import MapsIcon from './../Imagenes/maps.png';
 import NewsIcon from './../Imagenes/news.png';
-import PaymentsIcon from './../Imagenes/payments.png';
+
 import ReportIcon from './../Imagenes/report.png';
 import TourismIcon from './../Imagenes/tourism.png'
 import TransparencyIcon from './../Imagenes/transparency.png';
 import { Image} from 'react-native';
 import {AuthProvider} from './../contextos/AuthContext';
 import RutaProtegida from './RutaProtegida';
-import {useAuth} from './../contextos/AuthContext';
-
+import ListaReporteCiudadanos from './../Pantallas/ListaReporteCiudadanos';
 
 const Drawer = createDrawerNavigator();
-
+//El navegador drawer que contiene las pantallas de los usuarios anonimos, esta cubierto por el componente de authProvider que
+//Retorna las credenciales del usuario y de ahi entra a la ruta protegida, si la ruta protegida encuentra al usuario anonimo,
+//Entonces renderiza los Screen aqui mostrados.
 const DrawerInicio = () => {
 		return(   
 			<AuthProvider>			
@@ -48,7 +44,7 @@ const DrawerInicio = () => {
 				
 						{/*Inicia la construccion del Drawer y las pantallas que en las que se navega*/}
 					<Drawer.Screen 
-						name ="Inicio" 
+						name="Inicio" 
 						component={Inicio}
 						options={{drawerIcon: () => (<Image  style={{width:20,height:20}} source={HomeIcon}/>),
 									headerShown:false
@@ -57,7 +53,7 @@ const DrawerInicio = () => {
 						 
 					/>
 					<Drawer.Screen 
-						name ="Transparencia" 
+						name="Transparencia" 
 						component={Transparencia}
 						options={{drawerIcon: () => (
 									<Image  style={{width:20,height:20}} source={TransparencyIcon}/>),
@@ -68,7 +64,7 @@ const DrawerInicio = () => {
 								}} 
 					/>
 					<Drawer.Screen 
-						name ="Buzón Ciudadano" 
+						name="Buzón Ciudadano" 
 						component={BuzonCiudadano}
 						options={{drawerIcon: () => (
 									<Image  style={{width:20,height:20}} source={MailBoxIcon}/>),
@@ -77,7 +73,7 @@ const DrawerInicio = () => {
 								}} 
 					/>
 					<Drawer.Screen 
-						name ="Noticias" 
+						name="Noticias" 
 						component={Noticias}
 						options={{drawerIcon: () => (
 									<Image  style={{width:20,height:20}} source={NewsIcon}/>),
@@ -85,25 +81,15 @@ const DrawerInicio = () => {
 								}} 
 					/>
 					<Drawer.Screen 
-						name ="Bus Escolar" 
-						component={BusEscolar}
-						options={{drawerIcon: () => (
-									<Image  style={{width:20,height:20}} source={BusIcon}/>),
-									headerStyle:{backgroundColor:'#d4e283'},
-									headerTintColor:'#ffff'
-								}} 
-					/>
-					<Drawer.Screen 
-						name ="Reporte Ciudadano" 
+						name="Reporte Ciudadano" 
 						component={ReporteCiudadano}
 						options={{drawerIcon: () => (
 									<Image  style={{width:20,height:20}} source={ReportIcon}/>),
-									headerStyle:{backgroundColor:'#1dd2fc'},
-									headerTintColor:'#ffff'
+									headerShown:false
 								}} 
 					/>
 					<Drawer.Screen 
-						name ="Mapa de Tecalitlán" 
+						name="Mapa de Tecalitlán" 
 						component={MapaTeclalitlan}
 						options={{drawerIcon: () => (
 									<Image  style={{width:20,height:20}} source={MapsIcon}/>),
@@ -111,27 +97,29 @@ const DrawerInicio = () => {
 								}} 
 					/>
 					<Drawer.Screen 
-						name ="Eventos" 
+						name="Eventos" 
 						component={Eventos}
 						options={{drawerIcon: () => (
 									<Image  style={{width:20,height:20}} 
 										source={EventsIcon}
 									/>),
+									headerShown:false
 								}} 
 					/>
 					<Drawer.Screen 
-						name ="Turismo" 
+						name="Turismo" 
 						component={Turismo}
 						options={{drawerIcon: () => (
 									<Image  style={{width:20,height:20}} 
 										source={TourismIcon}
 									/>),
+									headerShown:false,
 								}}
 						
 						
 					/>
 					<Drawer.Screen
-						name ="Acerca de..." 
+						name="Acerca de" 
 						component={AcercaDe}
 						options={{drawerIcon: () => (
 									<Image  style={{width:20,height:20}} 
@@ -142,7 +130,7 @@ const DrawerInicio = () => {
 								}} 
 					/>
 					<Drawer.Screen 
-						name ="Cerrar Sesión" 
+						name="Cerrar Sesión" 
 						
 						component={PantallaCerrarSesion}
 						options={{drawerIcon: () => (
@@ -153,11 +141,15 @@ const DrawerInicio = () => {
 						
 					/>
 					<Drawer.Screen
-						name="Salir"
-						component={PantallaInicioSesion}
-						options={{drawerLabel:null,drawerIcon:null}}
+						name="actividad"
+						component={Actividades}
+						options={{drawerLabel:null,drawerIcon:null,headerShown:false}}
 					/>
-				 
+					<Drawer.Screen
+						name="listaReporte"
+						component={ListaReporteCiudadanos}
+						options={{drawerLabel:null,drawerIcon:null,headerShown:false}}
+					/> 
 				</RutaProtegida>
 				</AuthProvider>
     	);

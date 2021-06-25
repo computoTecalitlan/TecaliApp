@@ -2,12 +2,10 @@ import React from 'react';
 import {Text,View,Dimensions, ViewPropTypes,Image,TouchableOpacity} from 'react-native';
 import { Marker } from 'react-native-maps';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import Bus from './../Imagenes/bus.png';
 import {db} from './../firebase/firebaseConfig';
 import { useEffect, useState } from 'react/cjs/react.development';
 import Iglesia from './../Imagenes/iconosMapa/church.png';
 import Alimentos from './../Imagenes/iconosMapa/food.png';
-import Close from './../Imagenes/iconosMapa/close.png';
 import Hospital from './../Imagenes/iconosMapa/hospital.png';
 import Cultura from './../Imagenes/iconosMapa/entertaiment.png';
 import Public from './../Imagenes/iconosMapa/public-service.png';
@@ -18,8 +16,8 @@ import Farmacia from './../Imagenes/iconosMapa/pharmacy.png';
 import Gas from './../Imagenes/iconosMapa/gas.png'
 import CustomHeader from './../elementos/CustomHeader';
 import BottomSheet from 'reanimated-bottom-sheet';
+import imgCargando from './../Imagenes/noticia.png'
 
-import { Button } from 'native-base';
 const {width,height} = Dimensions.get('window');
 
 
@@ -48,7 +46,7 @@ const MapaTecalitlan = () => {
             cambiarCargando(false); 
         })
         cambiarUbicaciones(lista);
-        }catch(error){console.error(error)}
+        }catch(error){alert(error)}
     }
 
     const cambiarIcono = (categoria) =>{
@@ -232,10 +230,11 @@ const MapaTecalitlan = () => {
                           <CustomHeader nombre='mapa' consSimb={consSimb}/>
                    </View>
                 : 
-                    <TouchableOpacity onPress={obtenerUbicaciones}>
-                        <View style={{width:40,height:40, alignSelf:'center'}}>
-                            <Image source={Bus}/>
-                        </View>
+                    <TouchableOpacity onPress={() => obtenerUbicaciones()}>
+                        <View style={{height:'auto'}}>
+                            <Image source={imgCargando} style={{width:200,height:200,alignSelf:'center',resizeMode:'contain',marginTop:100}}/>
+                        <Text style={{alignSelf:'center'}}>Estamos investigando ... {'\n'} Presiona para  al ciudadano volver a cargar </Text> 
+                        </View> 
                     </TouchableOpacity>
                 }
                 <BottomSheet

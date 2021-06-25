@@ -19,9 +19,9 @@ const AcercaDe = () => {
             <Text style={{fontSize:18,color:'#fff',fontWeight:'bold',textAlign:'justify'}}>Tec. Antonio de Jesús Olivera Rodríguez</Text>
             <Text style={{fontSize:18,color:'#fff',fontWeight:'bold',textAlign:'justify'}}>ING. Gerardo Ortiz Ramírez</Text>
             <Text style={{marginTop:10,fontSize:18,color:'#f8ae40',fontWeight:'bold'}}>Puedes reportar problemas o contactarnos por: </Text>
-            <Text style={{marginTop:10,fontSize:18,color:'#45b39d',fontWeight:'bold'}}>Correo Electrónico:</Text>
+            <Text style={{marginTop:10,fontSize:18,color:'#45b39d',fontWeight:'bold'}}>Correo electrónico:</Text>
             <Text style={{fontSize:18,color:'#fff',fontWeight:'bold',textAlign:'justify'}}>computo.tecalitlan@gmail.com</Text>
-            <Text style={{marginTop:10,fontSize:18,color:'#45b39d',fontWeight:'bold'}}>Telefono:</Text>
+            <Text style={{marginTop:10,fontSize:18,color:'#45b39d',fontWeight:'bold'}}>Teléfono:</Text>
             <Text style={{fontSize:18,color:'#fff',fontWeight:'bold',textAlign:'justify'}}>371 418 4000 Extensión 123</Text>
             </View>
             

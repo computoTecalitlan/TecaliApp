@@ -7,6 +7,7 @@ import Reporte from './../Imagenes/incidents.png'
 import Bus from './../Imagenes/bus.png'
 const {width,height} = Dimensions.get('window');
 
+//Este componente se llama desde las pantallas y dependiendo del idCarta que envia la pantalla, este devuelve una carta de encabezado diferente
 const CartaEncabezadoPersonalizada = ({idCarta}) => {
     switch(idCarta){
         case 'buzon':
@@ -18,20 +19,21 @@ const CartaEncabezadoPersonalizada = ({idCarta}) => {
                             </View>
                             <View style={estilo.cartaTexto}> 
                                 <Text style={estilo.tituloCarta}>Buzón Ciudadano</Text>
-                                <Text style={estilo.descripcionCarta}>Realice sugerencias de una manera sencilla.</Text>
+                                <Text style={estilo.descripcionCarta}>Deposite quejas y sugerencias en el buzón ciudadano.</Text>
                                 <Text style={estilo.sugerenciaCarta}>También puedes visualizar la lista de sugerencias:</Text>
                                 <View style={{flexDirection:'column'}}
                                 >
                                     <View style={{flexDirection:'row',alignItems:'center'}}>
                                         <View style={{width:10,height:10,borderRadius:10,backgroundColor:'#45b39d'}}></View>
-                                        <Text> Aceptada.</Text>
+                                        <Text>Contestada.</Text>
+                                        <View style={{flexDirection:'row',alignItems:'center'}}>
+                                        <View style={{width:10,height:10,borderRadius:10,backgroundColor:'#474b4e'}}></View>
+                                        <Text>En espera.</Text>
+                                    </View>
                                     </View>
                                     <View style={{flexDirection:'row',alignItems:'center'}}>
-                                        <View style={{width:10,height:10,borderRadius:10,backgroundColor:'#b0e0e6'}}></View>
-                                        <Text> En espera.</Text>
-                                    </View><View style={{flexDirection:'row',alignItems:'center'}}>
                                         <View style={{width:10,height:10,borderRadius:10,backgroundColor:'red'}}></View>
-                                        <Text> Rechazada.</Text>
+                                        <Text>Sin respuesta.</Text>
                                     </View>
                                 </View>
                             </View>
@@ -89,7 +91,7 @@ const CartaEncabezadoPersonalizada = ({idCarta}) => {
 const estilo = StyleSheet.create({
     carta:{
         width: width * .99,
-        height:height * .25,
+        height:height * .28,
         alignSelf:'center',
         marginTop:5,
         borderRadius:2,
@@ -105,7 +107,7 @@ const estilo = StyleSheet.create({
         width: width *.53,
         height: height * .25,
         marginRight:2,
-        marginTop:10,
+        marginTop:2,
     },
     imagen:{
         resizeMode:'contain',

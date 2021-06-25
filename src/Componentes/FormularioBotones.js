@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Image,TouchableOpacity,StyleSheet,View,Text } from 'react-native';
+import { Image,TouchableOpacity,StyleSheet,View,Text,Linking } from 'react-native';
 import IconoInvitado from './../Imagenes/guest.png';
 import IconoAdmin from './../Imagenes/admin.png';
 import IconoEmergencia from './../Imagenes/911.png';
@@ -27,13 +27,13 @@ const FormularioBotones = ({mostrarBotones, botones}) => {
                 navigation.goBack();
              });
         }catch(error){
-            console.log(error.code);
+            alert(error.code);
         }
     }
     const cerrarSesion = () => {
         
         auth.signOut().then(() => alert('User signed out!')).catch(error => {
-            console.log(error.message);
+            alert(error.message);
         });
     }
 
@@ -56,7 +56,7 @@ const FormularioBotones = ({mostrarBotones, botones}) => {
             <TouchableOpacity
                 onPress={() => mostrarBotones(false)}
             >
-                <View style={estilos.contenedorBotonInvitado}>
+                <View style={estilos.contenedorBotonAdmin}>
                     <Image 
                         style={estilos.imageButtons}    
                         source={IconoAdmin}
@@ -66,7 +66,9 @@ const FormularioBotones = ({mostrarBotones, botones}) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={()=> {cerrarSesion()}}
+                onPress={()=> {
+                    Linking.openURL('tel:+523714181003')
+                }}
             >
                 <View style={estilos.contenedorBoton911}>
                     <Image 
@@ -98,7 +100,7 @@ const FormularioBotones = ({mostrarBotones, botones}) => {
         backgroundColor: "#7C8B90",
         alignItems: "center",
         marginBottom: 5,
-        borderRadius: 25
+        borderRadius: 10
       },
       estiloTextoBoton:{
         color: "#fff",
@@ -118,7 +120,8 @@ const FormularioBotones = ({mostrarBotones, botones}) => {
         justifyContent: "center",
         backgroundColor: "#DE003D",
         alignItems: "center",
-        marginBottom: 5
+        marginBottom: 5,
+        borderRadius:10
       },
       contenedorFormulario:{
           flex: 1,

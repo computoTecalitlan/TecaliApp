@@ -56,7 +56,9 @@ const FormularioInicioSesion = ({botones, mostrarBotones, imagen, mostrarImagen}
             if(error.code === 'auth/invalid-email'){
                 alert('Esta direccion de correo es invalida!');
             }
-            console.error(error);
+            if(error.code === 'auth/wrong-password'){
+                alert('La contraseña es incorrecta, escribela de nuevo.')
+            }
         });
     }
     return (

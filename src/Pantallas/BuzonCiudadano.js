@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar,BackHandler } from 'react-native';
 import {Dimensions,StyleSheet , Text, View, ScrollView,TouchableOpacity,Image} from 'react-native';
 import CartaEncabezadoPersonalizada from './../elementos/CartaEncabezadoPersonalizada';
 import FormulariosPersonalizados from './../Componentes/FormulariosPersonalizados';
@@ -11,6 +11,7 @@ const BuzonCiudadano = () => {
     const cambiarALista = () => {
         cambiarFormLista(!formLista);
     }
+  
     return ( 
                 formLista ? 
                     <ScrollView style={{height:height * 1.4,flex:1}}>

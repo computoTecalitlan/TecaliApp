@@ -1,9 +1,14 @@
 import React,{useState} from 'react';
 import { StatusBar, ViewPropTypes } from 'react-native';
-import {Text,TouchableOpacity,View,Dimensions,StyleSheet} from 'react-native';
+import {Text,TouchableOpacity,View,Dimensions,StyleSheet,TextInput} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import CartaEncabezadoPersonalizada from './../elementos/CartaEncabezadoPersonalizada';
+import ListaReportes from '../elementos/ListaReportes';
+import FormulariosPersonalizados from './../Componentes/FormulariosPersonalizados';
+import CustomHeader from '../elementos/CustomHeader';
+
 const {width,height} = Dimensions.get('window');
+
 const ReporteCiudadano = () => {
     const [formLista,cambiarFormLista] = useState(true);
     const cambiarALista = () => {
@@ -11,54 +16,10 @@ const ReporteCiudadano = () => {
     }
     return (
         <View style={{flex:1}}>
-        {formLista == true ? 
-            <ScrollView style={{flex:1}}>
-                <StatusBar backgroundColor='#00a3e4' barStyle='light-content' animated={true}/>
+                
+                <CustomHeader nombre='reporte'/>
                 <CartaEncabezadoPersonalizada idCarta='reportes'/>
-                <View style={estilo.estado}>
-                    <TouchableOpacity onPress={cambiarALista} disabled={formLista ? true : false}>
-                        <View style={formLista ? estilo.estiloActivo : estilo.estiloInactivo}>
-                            <Text style={{color:'#fff',fontWeight:'bold', alignSelf:'center'}}>Depositar</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={cambiarALista} disabled={formLista ? false : true}>
-                        <View style={formLista ? estilo.estiloInactivo : estilo.estiloActivo}>
-                            <Text style={{color:'#fff',fontWeight:'bold', alignSelf:'center'}}>Lista</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={{flex:1, width:width,height: height, borderWidth:5,borderColor:'#828282'}}>
-                    <Text>FORM</Text>
-                </View>
-            </ScrollView>
-        :
-        <View>
-            <StatusBar backgroundColor='#00a3e4' barStyle='light-content' animated={true}/>
-            <CartaEncabezadoPersonalizada idCarta='reportes'/>
-            <View style={estilo.estado}>
-                    <TouchableOpacity onPress={cambiarALista} disabled={formLista ? true : false}>
-                        <View style={formLista ? estilo.estiloActivo : estilo.estiloInactivo}>
-                            <Text style={{color:'#fff',fontWeight:'bold', alignSelf:'center'}}>Depositar</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={cambiarALista} disabled={formLista ? false : true}>
-                        <View style={formLista ? estilo.estiloInactivo : estilo.estiloActivo}>
-                            <Text style={{color:'#fff',fontWeight:'bold', alignSelf:'center'}}>Lista</Text>
-                        </View>
-                    </TouchableOpacity>
-            </View>
-            
-            <ScrollView>
-                <Text>Hola mundo</Text>
-                <Text>Hola mundo</Text>
-                <Text>Hola mundo</Text>
-                <Text>Hola mundo</Text>
-                <Text>Hola mundo</Text>
-
-            </ScrollView>
-        
-        </View>
-        }
+                <FormulariosPersonalizados nombreFormulario='reporte'/>
         </View>
        
      );

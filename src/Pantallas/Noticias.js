@@ -1,16 +1,12 @@
 import React, { useState,useEffect } from 'react';
-import { StatusBar,Text,View,Image,ImageBackground,Dimensions,StyleSheet, ScrollView, TouchableOpacity,Modal } from 'react-native';
+import { Text,View,Image,Dimensions,StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import {db} from './../firebase/firebaseConfig';
 import CartaEncabezadoPersonalizada from './../elementos/CartaEncabezadoPersonalizada';
 import CustomHeader from '../elementos/CustomHeader';
 import imgCargando from './../Imagenes/noticia.png'
-import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 const {width,height} = Dimensions.get('window');
-
-
-
 
 const Noticias = () => {
     const [noticias,cambiarNoticias] = useState([]);
@@ -39,7 +35,7 @@ const Noticias = () => {
             })
             cambiarNoticias(lista);
         }catch(error){
-            console.error(error)
+            alert(error)
         }
         
     }
@@ -86,7 +82,7 @@ const Noticias = () => {
                      borderTopLeftRadius:10,
                      borderTopRightRadius:10,
                      width: width,
-                     height:150,
+                     height:height / 3,
                      alignSelf:'center'
                     }}
                  />
@@ -134,12 +130,14 @@ const Noticias = () => {
                 >Desliza hacia abajo para cerrar la hoja</Text>
             </View>
             
-        )
+        );
          const sheetRef = React.useRef(null);
     return ( 
         <View style={{flex:1,height:height}}>
-       
-         <CustomHeader nombre='noticias' filtrar={filtrar} actualizar={actualizar}/>
+            <View style={{height:height /6}}>
+            <CustomHeader nombre='noticias' filtrar={filtrar} actualizar={actualizar}/>
+            </View>
+         
          <CartaEncabezadoPersonalizada idCarta='noticias' />
          <View style={estilo.contenedorLista}>
             {cargando == false ? 
@@ -195,7 +193,7 @@ const estilo = StyleSheet.create({
         width: width * .95,
         height: height * .25,
         alignSelf: 'center',
-        backgroundColor: '#f8ae40',
+        backgroundColor: '#5dc1b9',
         marginTop:2,
         borderTopLeftRadius:10,
         borderTopRightRadius:10,

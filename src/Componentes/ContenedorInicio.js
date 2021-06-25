@@ -6,7 +6,8 @@ import fondo from './../Imagenes/fondo.jpg'
 
 
 
-    
+    //Este primer navegador en stack permite navegar entre la pantalla inicio de sesion y el Drawer anidado,
+    //Al entrar al Drawer, este primero pasa por la ruta protegida.
 
 const Stack = createStackNavigator();
 
