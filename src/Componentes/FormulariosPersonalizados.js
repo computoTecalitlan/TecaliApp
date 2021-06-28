@@ -74,7 +74,7 @@ const FormulariosPersonalizados = ({nombreFormulario}) => {
                asuntoRef.current.clear();
                comentRef.current.clear();
                 })
-            .catch(error => {console.error(error)})
+            .catch(error => {alert(error)})
         }else {
             alert('No puedes dejar los campos vacios');
         }
@@ -186,14 +186,6 @@ const FormulariosPersonalizados = ({nombreFormulario}) => {
         case 'depSugerencia':
              return(
                 <>
-                <View style={estilo.carta}>
-                    <View style={estilo.cartaImagen}>
-                        <Image source={iconoAdd} style={estilo.icono}></Image>
-                    </View>
-                    <View style={estilo.cartaTexto}>
-                        <Text style={{color:'#f8ae40',alignSelf:'center',fontSize:15,fontWeight:'bold',marginTop:50}}>DEPOSITAR{'\n'}Sugerencia</Text>
-                    </View>
-                </View>
                 <View style={estilo.contenedorRespuestas}>   
                         <TextInput style={{width: width * .90,alignSelf:'center',borderBottomWidth:2,borderColor:'#828282',height:'auto'}} 
                                     placeholder='Asunto'
@@ -210,11 +202,12 @@ const FormulariosPersonalizados = ({nombreFormulario}) => {
                                     onChangeText={(text) => cambiarInputComentario(text)}
                                     ref={comentRef}
                         />
-                        <TouchableOpacity onPress={() => depositarSugerencia(inputAsunto,inputComentario)}>
-                            <View style={{borderRadius:10, backgroundColor:'#f8ae40', height:40,width:width * .40,alignSelf:'center',flexDirection:'row',marginTop:10,position:'absolute'}}>
-                                <Text style={{color:'#fff',alignSelf:'center',fontWeight:'bold'}}>Depositar Sugerencia</Text>
-                            </View>
-                        </TouchableOpacity>
+                        <View style={{width:width * .97,height:height * .19}}>
+                            <TouchableOpacity onPress={()=>depositarSugerencia(inputAsunto,inputComentario)}>
+                                <Image source={iconoAdd} style={{width:width*.10,height:height*.05,alignSelf:'center',marginTop:10}}/>
+                            </TouchableOpacity>
+                            <Text style={{alignSelf:'center',color:'#f47f0b'}}>Depositar sugerencia</Text>
+                        </View>
                 </View>
                 </>
              );
@@ -331,7 +324,7 @@ const estilo = StyleSheet.create({
         
     },
     contenedorRespuestas:{
-        width: width * .95,
+        width: width * .99,
         height: height * .55,
         backgroundColor: '#eee',
         borderRadius: 1,

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {Text, View,Dimensions,ScrollView,Image, TouchableOpacity, ViewPropTypes, StatusBar} from 'react-native';
-import { useEffect } from 'react/cjs/react.development';
 import {db} from './../firebase/firebaseConfig';
 import imgCargando from './../Imagenes/noticia.png'
 import BottomSheet from 'reanimated-bottom-sheet';
 import CustomHeader from './../elementos/CustomHeader';
+import Animated from 'react-native-reanimated';
 import MapView,{PROVIDER_GOOGLE,Marker} from 'react-native-maps';
-import CartaEncabezadoPersonalizada from '../elementos/CartaEncabezadoPersonalizada';
+
 
 const {width,height} = Dimensions.get('window');
 
@@ -14,7 +14,7 @@ const Turismo = () => {
      const [cargando,cambiarCargando] = useState(true);
      const [lugares,cambiarLugares] = useState([]);
      const [content,cambiarContent] = useState([]);//Utilizada para almacenar los datos y visualizarlos en la bottomSheet
-     const [imagenes,cambiarImagenes] = useState([]);
+     
     //Consulta al cargar
      useEffect(()=>{
         obtenerDatos();
@@ -136,8 +136,6 @@ const renderHeader = () => (
                             <TouchableOpacity key={index} onPress={() => {
                                 cambiarContent([])
                                 cambiarContent(lugar);
-                                
-                                
                                 sheetRef.current.snapTo(0);
                             }}
                             >

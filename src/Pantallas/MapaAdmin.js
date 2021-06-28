@@ -1,9 +1,8 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import {Text,View,Dimensions, ViewPropTypes,Image,TouchableOpacity,TextInput, ScrollView} from 'react-native';
 import { Marker } from 'react-native-maps';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import {db} from './../firebase/firebaseConfig';
-import { useEffect, useState } from 'react/cjs/react.development';
 import Iglesia from './../Imagenes/iconosMapa/church.png';
 import Alimentos from './../Imagenes/iconosMapa/food.png';
 import Hospital from './../Imagenes/iconosMapa/hospital.png';

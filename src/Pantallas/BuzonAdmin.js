@@ -1,6 +1,5 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import { View,Text,Dimensions,TouchableOpacity,TextInput, ViewPropTypes } from 'react-native';
-import { useState } from 'react/cjs/react.development';
 import ListaSugerenciasAdmin from './../elementos/ListaSugerenciasAdmin';
 import BottomSheet from 'reanimated-bottom-sheet';
 import {db} from './../firebase/firebaseConfig';

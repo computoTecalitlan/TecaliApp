@@ -82,7 +82,7 @@ const Noticias = () => {
                      borderTopLeftRadius:10,
                      borderTopRightRadius:10,
                      width: width,
-                     height:height / 3,
+                     height:height / 2,
                      alignSelf:'center'
                     }}
                  />
@@ -133,15 +133,13 @@ const Noticias = () => {
         );
          const sheetRef = React.useRef(null);
     return ( 
-        <View style={{flex:1,height:height}}>
-            <View style={{height:height /6}}>
+        <>
+        <View style={{width:width,height:height}}>
             <CustomHeader nombre='noticias' filtrar={filtrar} actualizar={actualizar}/>
-            </View>
-         
          <CartaEncabezadoPersonalizada idCarta='noticias' />
-         <View style={estilo.contenedorLista}>
             {cargando == false ? 
-                <ScrollView style={{flex: 1}} >
+            <View >
+                <ScrollView>
                     {noticias.reverse().map((noticia,index) => {
                         return( 
                             <TouchableOpacity key={index}  onPress={() => {
@@ -157,8 +155,9 @@ const Noticias = () => {
                         );
                     })}
                 </ScrollView>
+            </View>
             :
-            <View style={{flex:1}}>
+            <View >
                 <Image source={imgCargando} style={{width:200,height:200,alignSelf:'center',resizeMode:'contain'}}/>
                 <Text style={{alignSelf:'center'}}>Estamos investigando ... </Text> 
             </View> 
@@ -173,7 +172,7 @@ const Noticias = () => {
             renderHeader={renderHeader}
             initialSnap={2}
          />
-        </View>
+        </>
         
      );
 }
@@ -187,11 +186,12 @@ const estilo = StyleSheet.create({
        borderColor:'#828282',
        borderTopLeftRadius:2,
        borderTopRightRadius:2,
-       marginTop:2
+       marginTop:2,
+       flex:1
     },
     cartaNoticia:{
-        width: width * .95,
-        height: height * .25,
+        width: width * .96,
+        height: height * .17,
         alignSelf: 'center',
         backgroundColor: '#5dc1b9',
         marginTop:2,
@@ -199,7 +199,7 @@ const estilo = StyleSheet.create({
         borderTopRightRadius:10,
         borderBottomLeftRadius:10,
         borderBottomRightRadius:10,
-        flex:1
+       
     },
     imagenNoticia:{
         width: width * .96,

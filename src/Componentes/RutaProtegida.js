@@ -59,7 +59,7 @@ const RutaProtegida = ({children, ...restoDePropiedades}) =>{
                         options={{drawerIcon: () => (
                             <Image  style={{width:20,height:20}} 
                                 source={EventsIcon}
-                            />),headerStyle:{backgroundColor:'#f8ae40'},
+                            />),headerStyle:{backgroundColor:'#f8ae40'},headerTintColor:'#fff'
                         }} 
                     />
                         <Drawer.Screen name='Mapa' component={Mapa}
@@ -73,7 +73,7 @@ const RutaProtegida = ({children, ...restoDePropiedades}) =>{
                         options={{drawerIcon: () => (
                             <Image  style={{width:20,height:20}} 
                                 source={NewsIcon}
-                            />),headerStyle:{backgroundColor:'#f8ae40'}
+                            />),headerStyle:{backgroundColor:'#f8ae40'},headerTintColor:'#fff'
                         }} 
                     />
                         <Drawer.Screen name='Reportes ciudadanos' component={Reporte}
@@ -87,7 +87,7 @@ const RutaProtegida = ({children, ...restoDePropiedades}) =>{
                         options={{drawerIcon: () => (
                             <Image  style={{width:20,height:20}} 
                                 source={TourismIcon}
-                            />),
+                            />),headerStyle:{backgroundColor:'#f8ae40'},headerTintColor:'#fff'
                         }} 
                     />
                     <Drawer.Screen 

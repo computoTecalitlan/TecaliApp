@@ -1,7 +1,7 @@
-import React,{useState,useEffect} from 'react';
+import React from 'react';
 import {Text,View,ScrollView,StyleSheet,Dimensions,Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {db} from '../firebase/firebaseConfig';
+
 import ImgCargando from './../Imagenes/noticia.png';
 const {width,height} = Dimensions.get('window');
 const ListaSugerenciasAdmin = ({mostrarHoja,obtenerSugerencias,cambiarNota,nota,cargando,cambiarCargando,sugerencias,cambiarSugerencias}) => {

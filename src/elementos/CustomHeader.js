@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import {View,Text,TouchableOpacity,StyleSheet,Image, } from 'react-native';
+import {View,Text,TouchableOpacity,StyleSheet,Image, TextInput, } from 'react-native';
 
 import {Input,Item} from 'native-base';
 import {Dimensions} from 'react-native';
@@ -26,10 +26,10 @@ const CustomHeader = ({nombre,filtrar,actualizar,consSimb}) => {
                 for(let id in snap){
                     cambiarBanner(snap[id].eventData.imagen);
                 }
-               
+               cambiarCargando(false);
             })
         }catch(error){alert(error)}
-    });
+    },[]);
     
     const navigator = useNavigation();
     switch(nombre){
@@ -52,23 +52,23 @@ const CustomHeader = ({nombre,filtrar,actualizar,consSimb}) => {
             return(
                 
                 <View style={estilo.headerNoticias}>
-                    <View style={{width: width * .10,marginTop:30}}>
-                        <TouchableOpacity 
-                                onPress={() => {navigator.openDrawer();}}
-                                style={{flexDirection:'row'}}>
-                            <Image source={MenuWhite} style={{width:22,height:22,alignSelf:'center',marginLeft:15,marginTop:22}}/>
-                        </TouchableOpacity>
+                    <View style={{width:width,height:height*.05}}></View>
+                    <View style={{width:width,height:height*.07,flexDirection:'row'}}>
+                        <View style={{width: width * .10,height:height*.07,flexDirection:'column-reverse'}}>
+                            <TouchableOpacity onPress={() => {navigator.openDrawer();}}>
+                                <Image source={MenuWhite} style={{width:22,height:22,alignSelf:'center',marginLeft:15}}/>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{width: width * .80,height:height * .07,marginLeft:5,flexDirection:'column-reverse'}}>
+                            <TextInput placeholder='Buscar' style={{backgroundColor:'#fff',borderRadius:40,height:height*.07,width:'auto'}} onChangeText={text => filtrar(text)}/>
+                        </View>
+                        <View style={{width:width * .10,flexDirection:'column-reverse'}}>
+                            <TouchableOpacity onPress={() => actualizar()}>
+                                <Image source={refresh} style={{width:22,height:22,marginLeft:2}}/>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <View style={{width: width * .80,height:height * .05,marginTop:30,marginLeft:5}}>
-                    <Item>
-                        <Input placeholder='Buscar' style={{backgroundColor:'#fff',borderRadius:50}} onChangeText={text => filtrar(text)}></Input>
-                    </Item>
-                </View>
-                <View style={{width:width * .10,flexDirection:'row',marginTop:20}}>
-                    <TouchableOpacity onPress={() => actualizar()}>
-                        <Image source={refresh} style={{width:22,height:22,marginTop:30,marginLeft:2}}/>
-                    </TouchableOpacity>
-                </View>
+                    <View style={{width:width,height:height*.03}}></View>
                 </View>
                 
             );
@@ -115,7 +115,7 @@ const CustomHeader = ({nombre,filtrar,actualizar,consSimb}) => {
                             </TouchableOpacity>
                         </View>
                         <View style={{width: width * .79,height: height / 4,flexDirection:'column',marginTop:30}}>
-                            {banner ? 
+                            {cargando  == false ? 
                                 <Image source={logo} style={{width: width  * .60,height: height / 6,resizeMode:'contain',alignSelf:'center',borderRadius:20}}/>
                             : <></>}
                         </View>
@@ -149,22 +149,24 @@ const CustomHeader = ({nombre,filtrar,actualizar,consSimb}) => {
                         );
                         case 'reporte':
                             return(
-                                <View style={{width:width,height:height*.08,flexDirection:'row',backgroundColor:'#f8ae40'}}>
-                                <View style={{width: width * .10,flexDirection:'column-reverse'}}>
-                                <TouchableOpacity 
-                                                onPress={() => {navigator.openDrawer();}}
-                                                style={{flexDirection:'row'}}>
-                                    <Image source={MenuWhite} style={{width:22,height:22,alignSelf:'center',marginLeft:15,marginTop:22}}/>
-                                </TouchableOpacity>
-                                </View>
-                                <View style={{width:width * .80,flex:1,flexDirection:'column-reverse'}}>
-                                        <View style={{width:width * .80,height:'auto'}}><Text style={{alignSelf:'flex-end',color:'#828282'}}>Lista de reportes</Text></View>
-                                </View>
-                                <View style={{width:width * .10,flexDirection:'column-reverse'}}>
-                                        <TouchableOpacity onPress={()=>navigator.navigate('listaReporte')}>
-                                            <Image source={Lista} style={{width:20,height:20}}/>
-                                        </TouchableOpacity>
-                                </View>
+                                <View style={{width:width,height:height*.13,backgroundColor:'#f8ae40'}}>
+                                    <View style={{width:width,height:height*.03}}></View>
+                                    <View style={{width:width,height:height*.07,flexDirection:'row'}}>
+                                        <View style={{height:height *.07,width:width*.10,flexDirection:'column-reverse'}}>
+                                            <TouchableOpacity 
+                                                            onPress={() => {navigator.openDrawer();}}
+                                                            style={{flexDirection:'row'}}>
+                                                <Image source={MenuWhite} style={{width:22,height:22,alignSelf:'center',marginLeft:15}}/>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={{height:height *.07,width:width*.80,flexDirection:'column-reverse'}}><Text style={{marginLeft:5,color:'#fff',fontWeight:'bold',fontSize:20}}>Reportes Ciudadanos</Text></View>
+                                        <View style={{height:height *.07,width:width*.10,flexDirection:'column-reverse'}}>
+                                            <TouchableOpacity onPress={()=>navigator.navigate('listaReporte')}>
+                                                <Image source={Lista} style={{width:20,height:20}}/>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                    <View style={{width:width,height:height*.03}}></View>
                             </View>      
                             );
                  
@@ -184,12 +186,9 @@ const {width,height} = Dimensions.get('window');
      },
      headerNoticias:{
         width:width,
-        height: height * .1,
-        flexDirection:'row',
+        height: height * .15,
         marginTop:0,
         backgroundColor: '#f8ae40',   
-        flex:1
-        
      },
      headerText:{
          color:'#ffff',

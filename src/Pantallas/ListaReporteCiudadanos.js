@@ -6,7 +6,7 @@ import CustomHeader from '../elementos/CustomHeader';
 import imgCargando from './../Imagenes/noticia.png'
 const {width,height} = Dimensions.get('window');
 
-const listaReportes = () => {
+const ListaReporteCiudadanos = () => {
 const [reportes,cambiarReportes] = useState([]);
 const [nota,cambiarNota] = useState([]);
 const [cargando,cambiarCargando] = useState(true);
@@ -93,9 +93,7 @@ const obtenerReportes = () => {
     return(
         <>
         <View style={{width:width,height:height}}>
-             <View style={{width:width,height:height*.12}}>
             <CustomHeader nombre='noticias' actualizar={actualizar} filtrar={filtrar}/>
-            </View>
             {cargando == false ?
         <View>
             
@@ -146,7 +144,7 @@ const estilo = StyleSheet.create({
         
     },
     card:{
-        backgroundColor: '#eee',
+        backgroundColor: '#cdcdcd',
         borderRadius:10,
         height: height * .25,
         width: width * .90,
@@ -195,4 +193,4 @@ const estilo = StyleSheet.create({
         marginTop:1
     }
 })
-export default listaReportes;
+export default ListaReporteCiudadanos;

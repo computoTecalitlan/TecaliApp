@@ -1,7 +1,6 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { View,Text,Dimensions,TextInput,Image,Alert,ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useState } from 'react/cjs/react.development';
 import ListaEventos from '../elementos/ListaEventos';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Calendar from './../Imagenes/calendar.png';

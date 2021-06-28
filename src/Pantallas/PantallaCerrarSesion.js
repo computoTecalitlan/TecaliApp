@@ -1,10 +1,12 @@
-import { View } from 'native-base';
+
 import React, { useEffect, useState } from 'react';
 import { ImageBackground,Text } from 'react-native';
 import FondoDePantalla from './../Imagenes/fondo.jpg';
 import {auth}from './../firebase/firebaseConfig';
 import {useNavigation} from '@react-navigation/native';
 import {useAuth} from './../contextos/AuthContext';
+
+
 const CerrarSesion = () => {
 
     const navigator = useNavigation();

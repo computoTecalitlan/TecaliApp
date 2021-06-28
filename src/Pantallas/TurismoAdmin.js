@@ -1,12 +1,10 @@
 import React,{useState} from 'react';
 import { View,Text,Dimensions,Image,TouchableOpacity, TextInput,Alert } from 'react-native';
-import Ciudadano from './../Imagenes/prs-logo.png';
 import ListaTurismo from './../elementos/ListaTurismo';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import Galeria from './../Imagenes/image-white.png';
 import {launchImageLibrary} from 'react-native-image-picker';
-import { useEffect } from 'react/cjs/react.development';
 import axios from 'axios';
 import {db} from './../firebase/firebaseConfig';
 const {width,height} = Dimensions.get('window');

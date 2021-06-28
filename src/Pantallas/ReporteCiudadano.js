@@ -1,9 +1,6 @@
 import React,{useState} from 'react';
-import { StatusBar, ViewPropTypes } from 'react-native';
-import {Text,TouchableOpacity,View,Dimensions,StyleSheet,TextInput} from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import {View,Dimensions,StyleSheet,TextInput} from 'react-native';
 import CartaEncabezadoPersonalizada from './../elementos/CartaEncabezadoPersonalizada';
-import ListaReportes from '../elementos/ListaReportes';
 import FormulariosPersonalizados from './../Componentes/FormulariosPersonalizados';
 import CustomHeader from '../elementos/CustomHeader';
 

@@ -1,11 +1,10 @@
 import React, {useEffect,useState} from 'react';
-import {View,Text,Dimensions,Image,TouchableOpacity,ScrollView,ImageBackground} from 'react-native';
+import {View,Text,Dimensions,Image,TouchableOpacity,ScrollView} from 'react-native';
 import {db} from './../firebase/firebaseConfig';
-import imgCargando from './../Imagenes/noticia.png';
-import BottomSheet from 'reanimated-bottom-sheet';
 import {useNavigation} from '@react-navigation/native';
 import Refresh from './../Imagenes/refresh.png';
 import Close from './../Imagenes/iconosMapa/close.png';
+
 const {width,height} = Dimensions.get('window');
 
 const ListaEventos = () => {

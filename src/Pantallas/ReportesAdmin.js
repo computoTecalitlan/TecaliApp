@@ -6,7 +6,7 @@ import ListaReportes from './../elementos/ListaReportes';
 const {width,height} = Dimensions.get('window');
 const ReportesAdmin = () => {
     return(
-        <View style={{width:width,height:height,backgroundColor:'#f8ae40'}}>
+        <View style={{width:width,height:height,backgroundColor:'#fff'}}>
             <ListaReportes/>
         </View>
     );   

@@ -93,12 +93,9 @@ const obtenerReportes = () => {
     return(
         <>
         <View style={{width:width,height:height}}>
-             <View style={{width:width,height:height*.12}}>
-            <CustomHeader nombre='noticias' actualizar={actualizar} filtrar={filtrar}/>
-            </View>
+            <CustomHeader nombre='noticias' actualizar={actualizar} filtrar={filtrar}/> 
             {cargando == false ?
-        <View>
-            
+        <View >
              <ScrollView>
             {reportes.reverse().map((reporte,index) =>{
                 return(
@@ -120,7 +117,7 @@ const obtenerReportes = () => {
                  
         </View> 
         :
-        <View style={{flex:1}}>
+        <View style={{flex:1,backgroundColor:'blue',width:width,height:10}}>
             <Image source={imgCargando} style={{width:200,height:200,alignSelf:'center',resizeMode:'contain'}}/>
             <Text style={{alignSelf:'center'}}>Estamos investigando ... </Text> 
         </View> }
