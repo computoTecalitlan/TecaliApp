@@ -67,9 +67,12 @@ const obtenerReportes = () => {
             <Text style={{fontWeight:'bold',alignSelf:'flex-start'}}>Dirigido al departamento de: {nota.direccion}</Text>
             <Text style={{fontWeight:'bold'}}>Descripción:</Text>
             <Text>{nota.descripcion}</Text>
-            <Text>Calle: {nota.calle}</Text>
-            <Text>Colonia: {nota.colonia}</Text>
-            <Text>Localidad: {nota.localidad}</Text>
+            <Text style={{fontWeight:'bold'}}>Calle: </Text>
+            <Text>{nota.calle}</Text>
+            <Text style={{fontWeight:'bold'}}>Colonia: </Text>
+            <Text>{nota.colonia}</Text>
+            <Text style={{fontWeight:'bold'}}>Localidad:</Text>
+            <Text>{nota.localidad}</Text>
         </View>
     );
 
@@ -92,7 +95,7 @@ const obtenerReportes = () => {
     const sheetRef = React.useRef(null);
     return(
         <>
-        <View style={{width:width,height:height}}>
+        <View style={{width:width,height:height * .80}}>
             <CustomHeader nombre='noticias' actualizar={actualizar} filtrar={filtrar}/> 
             {cargando == false ?
         <View >
@@ -107,7 +110,7 @@ const obtenerReportes = () => {
                                 <View style={estilo.tituloCard}>
                                     <Text style={{alignSelf:'center',color:"#fff",fontWeight:"bold"}}>{reporte.asunto}</Text>
                                 </View>
-                                <Text style={{color:"#828282",fontWeight:"bold",fontSize:13,textAlign:'justify'}}>{reporte.descripcion}</Text>
+                                
                                 <Text style={{color:"#828282",fontWeight:"bold",textAlign:'center'}}>{reporte.fecha}</Text>
                             </View>
                         </TouchableOpacity> 
@@ -117,7 +120,7 @@ const obtenerReportes = () => {
                  
         </View> 
         :
-        <View style={{flex:1,backgroundColor:'blue',width:width,height:10}}>
+        <View style={{flex:1,width:width,height:10}}>
             <Image source={imgCargando} style={{width:200,height:200,alignSelf:'center',resizeMode:'contain'}}/>
             <Text style={{alignSelf:'center'}}>Estamos investigando ... </Text> 
         </View> }

@@ -61,7 +61,7 @@ const obtenerReportes = () => {
 
     const renderContent = () => (
         <View style={{width:width,height:height,backgroundColor:'#eee'}}>
-            <Image source={{uri:nota.imagen}} style={{width:width,height:height * .30}}/>
+            <Image source={{uri:nota.imagen}} style={{width:width,height:height /2}}/>
             <Text style={{alignSelf:'center',fontWeight:'bold',fontSize:20}}>{nota.asunto}</Text>
             <Text style={{fontWeight:'bold',color:'#828282',fontSize:18,alignSelf:'flex-start'}}>Fecha del reporte: {nota.fecha}</Text>
             <Text style={{fontWeight:'bold',alignSelf:'flex-start'}}>Dirigido al departamento de: {nota.direccion}</Text>
@@ -92,10 +92,10 @@ const obtenerReportes = () => {
     const sheetRef = React.useRef(null);
     return(
         <>
-        <View style={{width:width,height:height}}>
+        <View style={{width:width,height:height * .82}}>
             <CustomHeader nombre='noticias' actualizar={actualizar} filtrar={filtrar}/>
             {cargando == false ?
-        <View>
+        <View >
             
              <ScrollView>
             {reportes.reverse().map((reporte,index) =>{

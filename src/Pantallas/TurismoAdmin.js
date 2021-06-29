@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { View,Text,Dimensions,Image,TouchableOpacity, TextInput,Alert } from 'react-native';
+import { View,Text,Dimensions,Image,TouchableOpacity, TextInput,Alert,ScrollView } from 'react-native';
 import ListaTurismo from './../elementos/ListaTurismo';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import { Marker } from 'react-native-maps';
@@ -19,7 +19,7 @@ const TurismoAdmin = () => {
     const [latitude,cambiarLatitude] = useState();
     const [longitude,cambiarLongitude] = useState();
     const [imagen,cambiarImagen] = useState();
-   
+   let urlImagen = ''
     const handleImageLib = () =>{
         const options = {
             mediaType:'photo',
@@ -104,7 +104,7 @@ const TurismoAdmin = () => {
    
    
     return(
-        <View >
+        <>
             {estadoForm == true ? 
             <View style={{width:width,height:'auto'}}>
                 
@@ -123,7 +123,7 @@ const TurismoAdmin = () => {
         <></>
         }
         {form == 'agregar' ?
-            <>
+            <ScrollView>
                 <View style={{width:width/3,alignSelf:'flex-end',height:20}}>
                     <TouchableOpacity onPress={()=>{cambiarEstadoForm(true);cambiarForm('');}}>
                         <View style={{width:50,height:'auto',borderRadius:20,backgroundColor:'red',alignSelf:'flex-end',marginRight:3}}><Text style={{color:'#fff',fontWeight:'bold',alignSelf:'center'}}>X</Text></View>
@@ -214,18 +214,20 @@ const TurismoAdmin = () => {
                                 </View>
                                 }
                     </View>
-                        <TouchableOpacity onPress={subirImagen}>
+                        <TouchableOpacity onPress={()=>{
+                            subirImagen();
+                        }}>
                             <View style={{backgroundColor:'green',width:'auto',borderRadius:5,marginTop:10,height: 'auto',alignSelf:'center'}}>
                                 <Text style={{color:'#fff',fontWeight:'bold',alignSelf:'center'}}>Enviar</Text>
                             </View>
                         </TouchableOpacity>
-            </>
+            </ScrollView>
         : 
         <>
             <ListaTurismo/>
         </>
         }
-        </View>
+        </>
     );   
 }
 

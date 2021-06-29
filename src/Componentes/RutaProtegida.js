@@ -24,7 +24,7 @@ import TourismIcon from './../Imagenes/tourism.png'
 import Evento from './../Pantallas/Evento.js';
 import MapaAgregar from './../Pantallas/MapaAgregar';
 import MapaEliminar from './../Pantallas/MapaEliminar';
-
+import EditarLugar from './../Pantallas/EditarLugar';
 
 //Este componente divide las de navegacion del usuario, si es anonimo lo manda a un drawer que contiene las pantallas de los usuarios anonimos o
 //En este caso la poblacion en general,
@@ -122,6 +122,11 @@ const RutaProtegida = ({children, ...restoDePropiedades}) =>{
                     <Drawer.Screen
                         name='mapaEliminar'
                         component={MapaEliminar}
+                        options={{drawerLabel:null,headerShown:false}}
+                    />
+                     <Drawer.Screen
+                        name='editarLugar'
+                        component={EditarLugar}
                         options={{drawerLabel:null,headerShown:false}}
                     />
                 </Drawer.Navigator>

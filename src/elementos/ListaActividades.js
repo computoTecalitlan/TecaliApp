@@ -13,7 +13,7 @@ const ListaEventos = () => {
     const navigator = useNavigation();
     const obtenerEventos = () => {
         try{
-            const newsRef = db.ref('activities').limitToLast(20);
+            const newsRef = db.ref('activities');
     
             newsRef.on('value',(snapshot)=>{
                 const Snapshot = snapshot.val()
@@ -33,10 +33,11 @@ const ListaEventos = () => {
             obtenerEventos();
     },[]);
     return(
-        <>
+        
         <View style={{width:width,height:height}}>
             {cargando == false ? 
-                                  <ScrollView >
+            <View style={{flex:1,width:width,height:height}}>
+                                  <ScrollView style={{width:width,height:height}}>
                                   {eventos.reverse().map((actividad,index)=>{
                                       //Este touchable opacity, es el circulo rojo de eliminar sobre la tarjeta, se encuentra en todas las listas del admin
                                       //Es para eliminar el registro de la base de datos.
@@ -63,10 +64,10 @@ const ListaEventos = () => {
                                             imagen:actividad.imagen,
                                             id: actividad.id
                                         }); cambiarCargando(true);cambiarEventos([])}}>
-                                              <View style={{width:width * .99,height: height * .12,backgroundColor:'#cdcdcd',alignSelf:'center',borderRadius:20}}>
-                                                <Image source={{uri:actividad.imagen}} style={{width: width * .99,height: height * .08,alignSelf:'center',borderTopLeftRadius:20,borderTopRightRadius:20}}/>
+                                              <View style={{width:width * .99,height: height * .30,backgroundColor:'#cdcdcd',alignSelf:'center',borderRadius:15}}>
+                                                <Image source={{uri:actividad.imagen}} style={{width: width * .99,height: height * .20,alignSelf:'center',borderTopLeftRadius:15,borderTopRightRadius:15}}/>
                                              
-                                                <View style={{width: width * .99, height: height * .04}}>
+                                                <View style={{width: width * .99, height: height * .10}}>
                                                     <View style={{maxWidth:width/2,maxHeight:height * .04,flexDirection:'row',width:'auto',height:'auto',alignSelf:'center'}}>
                                                         <Text style={{alignSelf:'center',color:'#000000',fontWeight:'bold'}}>{actividad.actividad}</Text>
                                                         <Text style={{alignSelf:'center',color:'#f44611',fontWeight:'bold'}}>{actividad.fecha}</Text>
@@ -78,6 +79,7 @@ const ListaEventos = () => {
                                       );
                                   })}
                               </ScrollView>  
+                              </View>
                 : 
                 <View style={{flex:1}}>
                     <TouchableOpacity onPress={obtenerEventos}>
@@ -87,7 +89,7 @@ const ListaEventos = () => {
                 </View> 
                 }
         </View>
-      </>
+      
     )
 }
 export default  ListaEventos;

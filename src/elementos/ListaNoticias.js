@@ -14,7 +14,7 @@ const ListaEventos = () => {
 
     const obtenerNoticias = () => {
         try{
-            const newsRef = db.ref('news').limitToLast(20);
+            const newsRef = db.ref('news');
     
             newsRef.on('value',(snapshot)=>{
                 const Snapshot = snapshot.val()
@@ -35,9 +35,10 @@ const ListaEventos = () => {
     },[]);
     return(
         <>
-        <View style={{width:width,height:height}}>
+        <View style={{width:width,height:height*.82}}>
             {cargando == false ? 
-                                  <ScrollView>
+            <View style={{flex:1,height:'auto'}}>
+                                  <ScrollView >
                                   {noticias.reverse().map((noticia,index)=>{
                                       return(
                                           <View key={index}>
@@ -62,10 +63,10 @@ const ListaEventos = () => {
                                               id:noticia.id,
                                               direccion:noticia.direccion,
                                           })}}>
-                                              <View style={{width:width * .99,height: height * .12,backgroundColor:'#cdcdcd',marginTop: 2,alignSelf:'center',borderRadius:30}}>
-                                                <Image source={{uri:noticia.imagen}} style={{width: width * .99,height: height * .08,alignSelf:'center',borderTopLeftRadius:30,borderTopRightRadius:30}}/>
+                                              <View style={{width:width * .99,height: height * .30,backgroundColor:'#cdcdcd',marginTop: 2,alignSelf:'center',borderRadius:15}}>
+                                                <Image source={{uri:noticia.imagen}} style={{width: width * .99,height: height * .20,alignSelf:'center',borderTopLeftRadius:15,borderTopRightRadius:15}}/>
                                                 <View style={{width: width * .99, height: height * .04}}>
-                                                <View style={{maxWidth:width/2,maxHeight:height * .04,flexDirection:'row',width:'auto',height:'auto',alignSelf:'center'}}>
+                                                <View style={{maxWidth:width/2,maxHeight:height * .10,flexDirection:'row',width:'auto',height:'auto',alignSelf:'center'}}>
                                                         <Text style={{alignSelf:'center',color:'#000000',fontWeight:'bold'}}>{noticia.noticia}</Text>
                                                         <Text style={{alignSelf:'center',color:'#f44611',fontWeight:'bold'}}>{noticia.fecha}</Text>
                                                     </View>
@@ -76,6 +77,7 @@ const ListaEventos = () => {
                                       );
                                   })}
                               </ScrollView>  
+                              </View>
                 : 
                 <View style={{flex:1}}>
                     <Image source={imgCargando} style={{width:200,height:200,alignSelf:'center',resizeMode:'contain'}}/>

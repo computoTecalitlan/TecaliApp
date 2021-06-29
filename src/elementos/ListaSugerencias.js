@@ -12,7 +12,7 @@ const ListaSugerencias = () => {
 
     const obtenerSugerencias = () => {
         try{
-            const newsRef = db.ref('suggestions').limitToLast(5);
+            const newsRef = db.ref('suggestions');
     
             newsRef.on('value',(snapshot)=>{
                 const Snapshot = snapshot.val()

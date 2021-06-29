@@ -19,7 +19,8 @@ const ContenidoDrawer = (props) => {
         && item.name !== 'agregarMap'
         && item.name !== 'noticia'
         && item.name !== 'mapaEliminar'
-        && item.name !==  'listaReporte')
+        && item.name !==  'listaReporte'
+        && item.name !== 'editarLugar')
    
    //Aqui comienza la construccion del drawer, con la imagen del ciudadano siendo lo primero en ser renderizado, y despues le sigue la lista de pantallas filtradas
         return ( 

@@ -168,7 +168,11 @@ const FormulariosPersonalizados = ({nombreFormulario}) => {
                                    }})
                                .then(() => {
                                    alert('Se deposito con exito tu reporte \n espera una respuesta pronto');
-                                    
+                                    asuntoRef.current.clear();
+                                    comentRef.current.clear();
+                                    calleRef.current.clear();
+                                    coloniaRef.current.clear();
+                                    localRef.current.clear();
                                     cambiarImagen('');
                                     })
                                 .catch(error => {console.error(error)})
@@ -221,14 +225,14 @@ const FormulariosPersonalizados = ({nombreFormulario}) => {
                           ref={deptoRef}
                           style={{width:width *.50,alignSelf:'center'}}
                        >{catItems}</Picker>
-                    <Item >
-                            <Input id='asunto'
+                    
+                            <TextInput id='asunto'
                                    style={{color:'#828282'}} 
                                    placeholder={'Asunto(sobre que trata): '}
                                    onChangeText={(text) => cambiarInputAsunto(text)}
                                    ref={asuntoRef}
-                                   ></Input>
-                        </Item>
+                                   />
+                        
                         <TextInput placeholder='Escriba una descripción detallada.'
                                     multiline={true}
                                     numberOfLines={10}
@@ -236,31 +240,29 @@ const FormulariosPersonalizados = ({nombreFormulario}) => {
                                     style={{width:width * .90,alignSelf:'center',borderRadius:2,borderColor:'#828282',borderWidth:1,height:150,fontWeight:'bold',textAlign:'justify'}}
                                     onChangeText={(text) => cambiarInputComentario(text)}
                                     ref={comentRef}
-                        ></TextInput>
-                          <Item >
-                            <Input id='calle'
+                        />
+                         
+                            <TextInput id='calle'
                                    style={{color:'#828282'}} 
                                    placeholder={'Calle: '}
                                    onChangeText={(text) => cambiarCalle(text)}
                                    ref={calleRef}
-                                   ></Input>
-                        </Item>
-                        <Item >
-                            <Input id='colonia'
+                                   />
+                        
+                            <TextInput id='colonia'
                                    style={{color:'#828282'}} 
                                    placeholder={'Colonia: '}
                                    onChangeText={(text) => cambiarColonia(text)}
                                    ref={coloniaRef}
-                                   ></Input>
-                        </Item>
-                        <Item >
-                            <Input id='localidad'
+                                   />
+                        
+                            <TextInput id='localidad'
                                    style={{color:'#828282'}} 
                                    placeholder={'Localidad: '}
                                    onChangeText={(text) => cambiarLocalidad(text)}
                                    ref={localRef}
-                                   ></Input>
-                        </Item>
+                                   />
+                        
                             <View style={{width: width *.92,height:50,marginTop:10}}>
                                 <View style={{alignSelf:'center',width: 110, height: 50,flexDirection:'row'}}>
                                 <TouchableOpacity onPress={()=> handleImageLib()}>

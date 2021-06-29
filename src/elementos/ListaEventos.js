@@ -16,7 +16,7 @@ const ListaEventos = () => {
     const navigator = useNavigation();
     const obtenerEventos = async () => {
         try{
-            const newsRef = db.ref('events').limitToLast(20);
+            const newsRef = db.ref('events');
     
             newsRef.on('value',(snapshot)=>{
                 const Snapshot = snapshot.val()
@@ -137,15 +137,15 @@ const ListaEventos = () => {
                                           }); cambiarEventos([]);
                                                     cambiarCargando(true);
                                                 }}>
-                                              <View style={{width:width * .99,height: height * .15,backgroundColor:'#cdcdcd',marginTop: 2,alignSelf:'center',borderRadius:30}}>
-                                                <Image source={{uri:evento.imagen}} style={{width: width * .99,height: height * .08,alignSelf:'center',borderTopLeftRadius:30,borderTopRightRadius:30}}/>
-                                                <View style={{width: width * .99, height: height * .04}}>
+                                              <View style={{width:width * .99,height: height * .30,backgroundColor:'#cdcdcd',marginTop: 2,alignSelf:'center',borderRadius:15}}>
+                                                <Image source={{uri:evento.imagen}} style={{width: width * .99,height: height * .20,alignSelf:'center',borderTopLeftRadius:15,borderTopRightRadius:15}}/>
+                                                <View style={{width: width * .99, height: height * .06}}>
                                                     <View style={{flexDirection:'row',maxWidth:width/2,maxHeight:height*.04,height:'auto',width:'auto',alignSelf:'center'}}>
                                                     <Text style={{alignSelf:'center',color:'#000000',fontWeight:'bold'}}>{evento.nombre}</Text>
                                                     <Text style={{alignSelf:'center',color:'#f44611',fontWeight:'bold'}}>{evento.fecha}</Text>
                                                     </View>
                                                 </View>
-                                                <View style={{width: width  * .99,height: height * .03,borderBottomLeftRadius:30,borderBottomRightRadius:30,flexDirection:'row',alignContent:'center'}}>
+                                                <View style={{width: width  * .99,height: height * .04,borderBottomLeftRadius:30,borderBottomRightRadius:30,flexDirection:'row',alignContent:'center'}}>
                                                     <View style={{marginLeft:10,width: width * .50, height: height * .03,backgroundColor:'blue',borderRadius:20}}>
                                                         <Text style={{textAlign:'center',color:'#fff',fontWeight:'bold'}}>{evento.tipo}</Text>
                                                         </View>

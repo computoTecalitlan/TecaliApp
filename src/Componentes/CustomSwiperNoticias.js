@@ -16,7 +16,7 @@ const CustomSwiperNoticias = () => {
 
    const consultarActividades = () =>{
     try{
-        const newsRef = db.ref('activities').limitToLast(5);
+        const newsRef = db.ref('activities').limitToLast(20);
 
         newsRef.on('value',(snapshot)=>{
             const noticiasSnap = snapshot.val()

@@ -1,20 +1,20 @@
 import React, {useEffect,useState} from 'react';
-import {View,Text,Dimensions,Image,TouchableOpacity,ScrollView,TextInput} from 'react-native';
+import {View,Text,Dimensions,Image,TouchableOpacity,ScrollView} from 'react-native';
 import {db} from './../firebase/firebaseConfig';
 import imgCargando from './../Imagenes/noticia.png';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Close from './../Imagenes/iconosMapa/close.png';
-
+import {useNavigation} from "@react-navigation/native";
 const {width,height} = Dimensions.get('window');
 
 const ListaEventos = () => {
     const [lugares,cambiarLugares] = useState([]);
     const [cargando,cambiarCargando] = useState(true);
     const [nota,cambiarNota] = useState([]);
-
+    const navigator = useNavigation();
     const obtenetLugares = () => {
         try{
-            const newsRef = db.ref('tourism').limitToLast(20);
+            const newsRef = db.ref('tourism');
     
             newsRef.on('value',(snapshot)=>{
                 const Snapshot = snapshot.val()
@@ -97,12 +97,13 @@ const ListaEventos = () => {
     const sheetRef = React.useRef(null);
     return(
         <>
-        <View style={{width:width,height:height}}>
+        <View style={{width:width,height:height*.82}}>
             {cargando == false ? 
-                                  <ScrollView>
+            <View style={{flex:1}}>
+                                  <ScrollView >
                                   {lugares.reverse().map((place,index)=>{
                                       return(
-                                          <View key={index}>
+                                          <View key={index} >
                                                  <View style={{width:width,height:height*.02}}>
                                             <TouchableOpacity onPress={()=>{
                                             db.ref('tourism/'+place.id).remove().then(()=>{
@@ -111,18 +112,27 @@ const ListaEventos = () => {
                                             });
                                            
                                         }}>
-                                            <View style={{width:15,height:15,borderRadius:100,backgroundColor:'red',alignSelf:'flex-end',flexDirection:'column'}}>
+                                            <View style={{width:15,height:15,borderRadius:20,backgroundColor:'red',alignSelf:'flex-end',flexDirection:'column'}}>
                                                     <Image source={Close} style={{width:11,height:11,alignSelf:'center',marginTop:2}}/>
                                             </View>
                                         </TouchableOpacity>
                                             </View>
-                                            <TouchableOpacity key={index} onPress={() => {cambiarNota(place);sheetRef.current.snapTo(0)}}>
-                                              <View style={{width:width * .99,height: height * .12,backgroundColor:'#cdcdcd',marginTop: 2,alignSelf:'center',borderRadius:30}}>
-                                                <Image source={{uri:place.imagen}} style={{width: width * .99,height: height * .08,alignSelf:'center',borderTopLeftRadius:30,borderTopRightRadius:30}}/>
-                                                <View style={{width: width * .99, height: height * .04}}>
+                                            <TouchableOpacity key={index} onPress={() => {
+                                                    navigator.navigate('editarLugar',{
+                                                        lugar:place.lugar,
+                                                        descripcion:place.descripcion,
+                                                        latitude:place.latitude,
+                                                        longitude:place.longitude,
+                                                        imagen:place.imagen,
+                                                        id:place.id
+                                                    })
+                                            }}>
+                                              <View style={{width:width * .99,height: height * .30,backgroundColor:'#cdcdcd',marginTop: 2,alignSelf:'center',borderRadius:15}}>
+                                                <Image source={{uri:place.imagen}} style={{width: width * .99,height: height * .20,alignSelf:'center',borderTopLeftRadius:15,borderTopRightRadius:15}}/>
+                                                <View style={{width: width * .99, height: height * .10}}>
                                                     <Text style={{alignSelf:'center',color:'#000000',fontWeight:'bold'}}>{place.lugar}</Text>
                                                 </View>
-                                                <View style={{width: width  * .99,height: height * .06,borderBottomLeftRadius:30,borderBottomRightRadius:30,flexDirection:'row',alignContent:'center'}}>
+                                                <View style={{width: width  * .99,height: height * .06,borderBottomLeftRadius:10,borderBottomRightRadius:10,flexDirection:'row',alignContent:'center'}}>
                                                     
                                                 </View>
                                               </View>
@@ -131,6 +141,7 @@ const ListaEventos = () => {
                                       );
                                   })}
                               </ScrollView>  
+                </View>
                 : 
                 <View style={{flex:1}}>
                     <Image source={imgCargando} style={{width:200,height:200,alignSelf:'center',resizeMode:'contain'}}/>

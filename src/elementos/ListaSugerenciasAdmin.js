@@ -44,12 +44,11 @@ const ListaSugerenciasAdmin = ({mostrarHoja,obtenerSugerencias,cambiarNota,nota,
 
 const estilo = StyleSheet.create({
     contenedorRespuestas:{
-        width: width * .95,
-        height: height,
+        width: width * .99,
+        height: height * .82,
+        alignSelf:'center',
         backgroundColor: '#eee',
         borderRadius: 1,
-        borderWidth:4,
-        borderColor: '#828282',
         alignSelf:'center',
         marginTop:1,
        
