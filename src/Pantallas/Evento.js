@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Text,View,ImageBackground,Image,TextInput,Dimensions} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import GoBack from './../Imagenes/back-orange.png';
 import DateTime from './../Imagenes/date-time.png'
@@ -147,7 +147,8 @@ const Evento = ({route}) => {
         })
 };
     return(
-        <View style={{width:width,height:height}}>
+        <ScrollView>
+            <View style={{width:width,height:height}}>
             <View style={{width:width,height:'auto',flexDirection:'row'}}>
                 <View style={{width:width*.10,height:height*.10,flexDirection:'column-reverse'}}>
                     <TouchableOpacity onPress={()=>navigator.goBack()}><Image source={GoBack} style={{width:30,height:30}}/></TouchableOpacity>
@@ -187,8 +188,8 @@ const Evento = ({route}) => {
                 <View style={{width:30,height:'auto',borderRadius:20,backgroundColor:'#828282',alignSelf:'flex-end'}}>
                     <Image source={Camera} style={{width:20,height:20,alignSelf:'center'}}/>
                 </View>
-                
-                <View style={{width:width,height:height * .60,flexDirection:'column-reverse'}}>
+            </TouchableOpacity>
+            <View style={{width:width,height:height * .40,flexDirection:'column-reverse'}}>
                     <TouchableOpacity onPress={()=>{
                         if(imagenActualizar){
                            actualizarImagen();
@@ -200,9 +201,10 @@ const Evento = ({route}) => {
                     <View style={{width:80,height:20,borderRadius:20,backgroundColor:'#828282',alignSelf:'center'}}><Text style={{alignSelf:'center',color:'#fff'}}>Guardar</Text></View>
                     </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
             </ImageBackground>
         </View>
+        </ScrollView>
+        
     );
 }
 

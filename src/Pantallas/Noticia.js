@@ -79,7 +79,7 @@ const Noticia = ({route}) => {
     imageFormData.append('file',{
         name:uploadUri.fileName,
         size:uploadUri.fileSize,
-        direccion: uploadUri.direccion,
+        type: uploadUri.type,
         uri:uploadUri.uri
     });
     imageFormData.append('upload_preset','ayuntamiento');        
@@ -93,7 +93,7 @@ const Noticia = ({route}) => {
         }).then((response) => {
             const{data} = response;
             const {url} = data;
-            urlImagen = url; //Aqui obtengo como respuesta la url de la  ya en cloudinary.
+            urlImagen = url; //Aqui obtengo como respuesta la url de la imagen ya en cloudinary.
             actualizarEventos();//Llamo la funcion para ahora si enviar todos los datos a la base de datos en firebase.
         })
         .catch(error => {
@@ -106,7 +106,7 @@ const Noticia = ({route}) => {
                 <View style={{width:width*.10,height:height*.10,flexDirection:'column-reverse'}}>
                     <TouchableOpacity onPress={()=>navigator.goBack()}><Image source={GoBack} style={{width:30,height:30}}/></TouchableOpacity>
                 </View>
-                <View style={{width:'auto',height:height*.10,flexDirection:'column-reverse'}}>
+                <View style={{width:'auto',height:height*.10,flexDirection:'column-reverse',marginTop:10}}>
                     <TextInput style={{fontWeight:'bold',fontSize:20}} value={Noticia} onChangeText={text => cambiarNoticia(text)}/>
                 </View>
             </View>
@@ -142,8 +142,10 @@ const Noticia = ({route}) => {
                     <Image source={Camera} style={{width:20,height:20,alignSelf:'center'}}/>
                 </View>
                 
-                <View style={{width:width,height:height * .60,flexDirection:'column-reverse'}}>
-                    <TouchableOpacity onPress={()=>{
+                <View style={{width:width,height:height * .40,flexDirection:'column-reverse'}}>
+                </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>{
                         if(imagenActualizar){
                            actualizarImagen();
                         }else{
@@ -152,8 +154,6 @@ const Noticia = ({route}) => {
                         }
                     }}>
                     <View style={{width:80,height:20,borderRadius:20,backgroundColor:'#828282',alignSelf:'center'}}><Text style={{alignSelf:'center',color:'#fff'}}>Guardar</Text></View>
-                    </TouchableOpacity>
-                </View>
             </TouchableOpacity>
             </ImageBackground>
         </View>

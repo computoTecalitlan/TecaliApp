@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {Text,Dimensions,View,ImageBackground,Image,TextInput} from 'react-native';
+import {Text,Dimensions,View,ImageBackground,Image,TextInput, ScrollView} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import GoBack from './../Imagenes/back-orange.png';
 import Camera from './../Imagenes/camera.png';
@@ -76,7 +76,7 @@ const EditarLugar = ({route}) => {
         
         const newsRef = db.ref('tourism/'+id);
         newsRef.update({
-            activityData:{
+            placeData:{
                 lugar: place,
                 descripcion: description,
                 imagen:urlImagen,
@@ -88,8 +88,9 @@ const EditarLugar = ({route}) => {
                 navigator.goBack();
             }).catch((error) => alert('Hubo un error \n'+error));
    }
-    return ( 
-        <View style={{width: width, height: height,backgroundColor:'#eee'}}>
+    return (
+        <ScrollView>
+            <View style={{width: width, height: height,backgroundColor:'#eee'}}>
             <View style={{width:width,height:height * .10,flexDirection:'row'}}>
                 <View style={{width:width * .10,height:height * .10,flexDirection:'row'}}>
                 <TouchableOpacity onPress={()=>{
@@ -98,8 +99,8 @@ const EditarLugar = ({route}) => {
                     <Image source={GoBack} style={{width:20,height:20,marginTop:36,alignSelf:'center'}}/>
                 </TouchableOpacity>
                 </View>
-                <View style={{width: width * .90,height:height * .10}}>
-                    <TextInput style={{marginTop:30,fontSize:22,fontWeight:'bold'}} onChangeText={text => cambiarLugar(text)} value={place}/>
+                <View style={{width: width * .90,height:height * .10,flexDirection:'column-reverse',marginTop:10}}>
+                    <TextInput style={{fontSize:22,fontWeight:'bold'}} onChangeText={text => cambiarLugar(text)} value={place}/>
                 </View>
             </View>
          
@@ -142,7 +143,7 @@ const EditarLugar = ({route}) => {
                     <Image source={Camera} style={{width:20,height:20,alignSelf:'center'}}/>
                 </View>
                 </TouchableOpacity>
-                <View style={{width:width,height:height * .30,flexDirection:'column-reverse'}}>
+                <View style={{width:width,height:height * .20,flexDirection:'column-reverse'}}>
                     <TouchableOpacity onPress={()=>{
                         if(imagenActualizar){
                             actualizarImagen();
@@ -156,6 +157,8 @@ const EditarLugar = ({route}) => {
                 </View>
         </ImageBackground>
         </View>
+        </ScrollView>
+        
      );
 }
  

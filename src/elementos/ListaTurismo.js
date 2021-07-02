@@ -108,7 +108,7 @@ const ListaEventos = () => {
                                             <TouchableOpacity onPress={()=>{
                                             db.ref('tourism/'+place.id).remove().then(()=>{
                                                 cambiarCargando(true);
-                                                obtenerLugares();
+                                                obtenetLugares();
                                             });
                                            
                                         }}>

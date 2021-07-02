@@ -176,6 +176,7 @@ const EventosAdmin = () => {
         }
        
         {form == 'agregar' ? 
+        <ScrollView>
             <View style={{width:width,height:height,backgroundColor:'#fff'}}>
                   <View style={{width:width/3,alignSelf:'flex-end',height:20}}>
                                 <TouchableOpacity onPress={()=>{cambiarEstadoForm(true);cambiarForm('');}}>
@@ -296,6 +297,7 @@ const EventosAdmin = () => {
                         </TouchableOpacity>
                     :<></>}
             </View>  
+        </ScrollView>
         :
         <>
             <ListaEventos/>

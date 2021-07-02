@@ -138,7 +138,7 @@ const Noticias = () => {
             <CustomHeader nombre='noticias' filtrar={filtrar} actualizar={actualizar}/>
          <CartaEncabezadoPersonalizada idCarta='noticias' />
             {cargando == false ? 
-            <View >
+            <View style={{flex:1}}>
                 <ScrollView>
                     {noticias.reverse().map((noticia,index) => {
                         return( 
@@ -149,7 +149,7 @@ const Noticias = () => {
                                 <View style={estilo.cartaNoticia}>
                                     <Image source={{uri:noticia.imagen}} style={estilo.imagenNoticia}/>
                                     <Text style={{alignSelf:'center',color:'#fff',fontWeight:'bold'}}>{noticia.noticia}</Text>
-                                    <Text style={{alignSelf:'center',color:'#fff',fontWeight:'bold'}}>{noticia.fecha}</Text>
+                                    <Text style={{alignSelf:'center',color:'#f44611',fontWeight:'bold'}}>{noticia.fecha}</Text>
                                 </View>
                             </TouchableOpacity>
                         );
@@ -193,7 +193,7 @@ const estilo = StyleSheet.create({
         width: width * .96,
         height: height * .17,
         alignSelf: 'center',
-        backgroundColor: '#5dc1b9',
+        backgroundColor: '#cdcdcd',
         marginTop:2,
         borderTopLeftRadius:10,
         borderTopRightRadius:10,

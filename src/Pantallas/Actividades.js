@@ -92,7 +92,6 @@ const Actividades = ({route}) => {
              if(response.uri){
                     cambiarImage(response.uri);
                     cambiarImagenActualizar(response);
-                    alert(imagenActualizar);
              }
         })
     };
@@ -150,8 +149,8 @@ const Actividades = ({route}) => {
                     <Image source={GoBack} style={{width:20,height:20,marginTop:36,alignSelf:'center'}}/>
                 </TouchableOpacity>
                 </View>
-                <View style={{width: width * .90,height:height * .10}}>
-                    <TextInput style={{marginTop:30,fontSize:22,fontWeight:'bold'}} onChangeText={text => cambiarActivity(text)} value={activity}/>
+                <View style={{width: width * .90,height:height * .10,flexDirection:'column-reverse',marginTop:10}}>
+                    <TextInput style={{fontSize:22,fontWeight:'bold'}} onChangeText={text => cambiarActivity(text)} value={activity}/>
                 </View>
             </View>
             <View style={{width:width,height:height * .10}}>
@@ -182,8 +181,8 @@ const Actividades = ({route}) => {
                 <View style={{width:30,height:'auto',borderRadius:20,backgroundColor:'#828282',alignSelf:'flex-end'}}>
                     <Image source={Camera} style={{width:20,height:20,alignSelf:'center'}}/>
                 </View>
-                
-                <View style={{width:width,height:height * .60,flexDirection:'column-reverse'}}>
+            </TouchableOpacity>
+            <View style={{width:width,height:height * .60,flexDirection:'column-reverse'}}>
                     <TouchableOpacity onPress={()=>{
                         if(imagenActualizar){
                             actualizarImagen();
@@ -195,7 +194,6 @@ const Actividades = ({route}) => {
                     <View style={{width:80,height:20,borderRadius:20,backgroundColor:'#828282',alignSelf:'center'}}><Text style={{alignSelf:'center',color:'#fff'}}>Guardar</Text></View>
                     </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
         </ImageBackground>
         </View>
      );

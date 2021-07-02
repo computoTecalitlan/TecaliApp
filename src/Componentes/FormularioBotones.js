@@ -67,7 +67,7 @@ const FormularioBotones = ({mostrarBotones, botones}) => {
 
             <TouchableOpacity
                 onPress={()=> {
-                    Linking.openURL('tel:+523714181003')
+                    Linking.openURL('tel:+523714184000')
                 }}
             >
                 <View style={estilos.contenedorBoton911}>
